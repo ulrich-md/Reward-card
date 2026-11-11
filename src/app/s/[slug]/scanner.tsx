@@ -254,7 +254,7 @@ function Camera({ onCode, paused }: { onCode: (code: string) => void; paused: bo
   }, []);
 
   return (
-    <div className="relative aspect-square overflow-hidden rounded-[32px] bg-black/40 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.12)]">
+    <div className="relative aspect-square overflow-hidden rounded-[20px] bg-black/40 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.12)]">
       <video ref={videoRef} className="size-full object-cover" muted playsInline />
       {failed ? (
         <div className="absolute inset-0 flex items-center justify-center p-8 text-center text-sm text-white/65">

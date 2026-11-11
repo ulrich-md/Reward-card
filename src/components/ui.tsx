@@ -44,7 +44,7 @@ export function Phone({ children, style }: { children: ReactNode; style?: CSSPro
 export function Hero({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <header
-      className={`hero rounded-b-[40px] px-6 pb-9 pt-7 lg:flex lg:min-w-0 lg:flex-1 lg:flex-col lg:justify-center lg:rounded-[40px] lg:p-14 ${className}`}
+      className={`hero rounded-b-[28px] px-6 pb-9 pt-7 lg:flex lg:min-w-0 lg:flex-1 lg:flex-col lg:justify-center lg:rounded-[24px] lg:p-14 ${className}`}
     >
       {children}
     </header>
@@ -152,7 +152,7 @@ export function StampCard({
 }) {
   return (
     <div style={{ filter: "drop-shadow(0 20px 28px color-mix(in srgb, var(--accent, #3355ff) 30%, transparent))" }}>
-      <div className="pass rounded-[28px] bg-accent text-on-accent">
+      <div className="pass rounded-[20px] bg-accent text-on-accent">
         <div className="p-5 pb-4">
           <div className="mb-4 flex items-center justify-between gap-3">
             <span className="eyebrow truncate opacity-80">{title}</span>
@@ -173,8 +173,8 @@ export function StampCard({
 export function Loading() {
   return (
     <div role="status" aria-label="Cargando" className="mx-auto w-full max-w-md space-y-4 p-4 lg:max-w-6xl lg:p-6">
-      <div className="skeleton h-72 w-full rounded-[40px]" />
-      <div className="skeleton h-40 w-full rounded-[28px]" />
+      <div className="skeleton h-72 w-full rounded-[24px]" />
+      <div className="skeleton h-40 w-full rounded-[20px]" />
     </div>
   );
 }

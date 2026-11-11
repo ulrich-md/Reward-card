@@ -83,7 +83,9 @@ export async function createBusinessAction(_: FormState, fd: FormData): Promise<
   const base = slugify(name);
   if (!base) return { error: "El nombre debe incluir letras o números." };
   const db = await getDb();
-  let slug = base;
+  // «new» y «login» son rutas del panel: un negocio con ese nombre quedaría inaccesible.
+  const reserved = new Set(["new", "login"]);
+  let slug = reserved.has(base) ? `${base}-1` : base;
   for (let i = 2; (await businessBySlug(slug)) !== null; i++) slug = `${base}-${i}`;
 
   await db

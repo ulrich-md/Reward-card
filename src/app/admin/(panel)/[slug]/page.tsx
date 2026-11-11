@@ -124,7 +124,7 @@ async function Detail({ params }: Props) {
             <div
               role="img"
               aria-label="Código QR de alta"
-              className="mx-auto w-44 rounded-3xl bg-white p-3 shadow-[0_0_0_1px_rgb(10_11_13/0.08)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+              className="mx-auto w-44 rounded-2xl bg-white p-3 shadow-[0_0_0_1px_rgb(10_11_13/0.08)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
               dangerouslySetInnerHTML={{ __html: qr }}
             />
             <Link href={`/admin/${business.slug}/poster`} className="btn btn-ink btn-sm mt-4 w-full">

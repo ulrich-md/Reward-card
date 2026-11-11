@@ -24,7 +24,7 @@ export function NewBusinessForm() {
   return (
     <form action={action} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
       {/* Vista previa: arriba en móvil, fija a la derecha en escritorio */}
-      <div style={brandStyle(color)} className="hero rounded-[32px] p-5 lg:sticky lg:top-6 lg:order-last lg:p-6">
+      <div style={brandStyle(color)} className="hero rounded-[20px] p-5 lg:sticky lg:top-6 lg:order-last lg:p-6">
         <p className="eyebrow mb-4 text-white/55">Así la ve el cliente</p>
         <div className="mb-5 flex items-center gap-3">
           <BrandMark icon={icon} />

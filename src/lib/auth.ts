@@ -1,7 +1,7 @@
 import "server-only";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 const ADMIN_COOKIE = "rc_admin";
 const STAFF_COOKIE = "rc_staff";
@@ -25,10 +25,13 @@ async function setSession(name: string, claims: Record<string, string>, days: nu
     .setIssuedAt()
     .setExpirationTime(`${days}d`)
     .sign(secret());
+  // «Secure» solo si la petición llegó por HTTPS: así la sesión también
+  // funciona al probar un build de producción por HTTP en la red local.
+  const https = (await headers()).get("x-forwarded-proto")?.split(",")[0].trim() === "https";
   (await cookies()).set(name, token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: isProd,
+    secure: https,
     path: "/",
     maxAge: days * 86400,
   });

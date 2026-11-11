@@ -66,7 +66,7 @@ async function Dashboard() {
       <AdminBody>
         <Panel title="Programas activos">
           {rows.length === 0 ? (
-            <div className="rounded-3xl bg-fog px-6 py-10 text-center">
+            <div className="rounded-2xl bg-fog px-6 py-10 text-center">
               <p className="font-display text-lg font-semibold">Crea tu primer negocio</p>
               <p className="mx-auto mt-1 max-w-sm text-sm text-stone">
                 Define su tarjeta de sellos y obtén el código para el mostrador en menos de un minuto.

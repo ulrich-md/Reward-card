@@ -53,7 +53,7 @@ async function Poster({ params }: Props) {
         <div
           role="img"
           aria-label="Código QR de alta"
-          className="mx-auto mt-7 w-64 rounded-3xl p-4 shadow-[0_0_0_1px_rgb(10_11_13/0.1)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+          className="mx-auto mt-7 w-64 rounded-2xl p-4 shadow-[0_0_0_1px_rgb(10_11_13/0.1)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
           dangerouslySetInnerHTML={{ __html: qr }}
         />
         <ol className="mx-auto mt-7 max-w-xs space-y-2 text-left text-sm text-stone">

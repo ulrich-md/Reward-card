@@ -78,7 +78,7 @@ async function Card({ params }: Props) {
           <div
             role="img"
             aria-label="Código QR de tu tarjeta"
-            className="mt-4 w-48 rounded-3xl bg-white p-4 shadow-[0_0_0_1px_rgb(10_11_13/0.08)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+            className="mt-4 w-48 rounded-2xl bg-white p-4 shadow-[0_0_0_1px_rgb(10_11_13/0.08)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
             dangerouslySetInnerHTML={{ __html: qr }}
           />
           <p className="tabular mt-4 font-mono text-lg font-semibold tracking-[0.25em]">{member.code}</p>

@@ -47,7 +47,7 @@ function Swatches({ title, note, items }: { title: string; note: string; items: 
 export default function Page() {
   return (
     <main className="mx-auto w-full max-w-6xl space-y-14 p-4 pb-16 lg:p-6 lg:pb-20">
-      <header className="hero rounded-[36px] p-7 lg:rounded-[40px] lg:p-14">
+      <header className="hero rounded-[24px] p-7 lg:rounded-[24px] lg:p-14">
         <Wordmark />
         <p className="eyebrow mt-10 text-white/55 lg:mt-16">Sistema de color</p>
         <h1 className="mt-2 text-5xl font-medium leading-[1.02] lg:text-7xl">
@@ -147,7 +147,7 @@ export default function Page() {
             <p className="rounded-2xl bg-bad-soft px-4 py-3 text-sm font-medium text-bad">PIN incorrecto.</p>
           </div>
 
-          <div className="hero space-y-5 rounded-[28px] p-6">
+          <div className="hero space-y-5 rounded-[20px] p-6">
             <p className="eyebrow text-white/55">Sobre un panel</p>
             <div className="flex flex-wrap items-center gap-3">
               <button className="btn btn-white">Acción principal</button>
@@ -164,7 +164,7 @@ export default function Page() {
                 <Icon name="plus" size={18} /> Inactivo
               </span>
             </div>
-            <div className="glass w-fit rounded-3xl p-4">
+            <div className="glass w-fit rounded-2xl p-4">
               <p className="eyebrow text-white/60">Clientes</p>
               <p className="figure mt-2 text-4xl">128</p>
             </div>

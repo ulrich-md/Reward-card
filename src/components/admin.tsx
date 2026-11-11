@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 /** Cabecera del panel: panel oscuro con título y cifras. */
 export function AdminHeader({ children }: { children: ReactNode }) {
   return (
-    <header className="hero rounded-b-[36px] px-6 pb-7 pt-7 lg:rounded-[36px] lg:p-10">{children}</header>
+    <header className="hero rounded-b-[28px] px-6 pb-7 pt-7 lg:rounded-[24px] lg:p-10">{children}</header>
   );
 }
 
@@ -39,7 +39,7 @@ export function Panel({
 /** Cifra dentro del panel oscuro, sobre vidrio. */
 export function Stat({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="glass rounded-3xl p-4 lg:p-5">
+    <div className="glass rounded-2xl p-4 lg:p-5">
       <p className="eyebrow text-white/60">{label}</p>
       <p className="figure mt-2 text-3xl lg:text-5xl">{value}</p>
     </div>
