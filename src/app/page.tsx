@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { brandImage } from "@/lib/brand-image";
-import { BrandMark, Icon, StampCard, Wordmark, brandStyle, type IconName } from "@/components/ui";
+import { HeroDemo } from "./hero-demo";
+import { BrandMark, Icon, Wordmark, brandStyle, type IconName } from "@/components/ui";
 
 const FEATURES: { icon: IconName; title: string; text: string }[] = [
   { icon: "star", title: "Tarjetas de sellos", text: "Tú decides cuántos sellos y qué premio. El progreso se actualiza solo en el teléfono del cliente." },
@@ -17,44 +18,7 @@ const STEPS = [
   { title: "Gana en cada visita", text: "El personal escanea su tarjeta y el sello aparece al momento." },
 ];
 
-function Device() {
-  return (
-    <div className="device mx-auto w-[280px]" style={brandStyle("#ffd84d")} aria-hidden>
-      <div>
-        <div className="hero rounded-b-[24px] px-4 pb-5 pt-5">
-          <div className="flex items-center gap-2.5">
-            <BrandMark icon="coffee" size={32} />
-            <div className="leading-tight">
-              <p className="font-display text-[13px] font-semibold">Café Central</p>
-              <p className="text-[11px] text-white/60">Hola, María</p>
-            </div>
-          </div>
-          <p className="eyebrow mt-5 text-center text-white/55">Tus sellos</p>
-          <p className="figure mt-1 text-center text-6xl">
-            7<span className="text-2xl text-white/40"> / 10</span>
-          </p>
-          <div className="mt-4">
-            <StampCard title="Tarjeta" filled={7} total={10} icon="coffee" footer="Al completar: un café gratis" />
-          </div>
-        </div>
-        <div className="space-y-2 p-3">
-          <div className="card !p-3">
-            <div className="row">
-              <span className="flex size-8 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_rgb(10_11_13/0.06)]">
-                <Icon name="tag" size={14} />
-              </span>
-              <p className="min-w-0 flex-1 truncate text-[12px] font-semibold">2×1 en capuchinos</p>
-              <span className="rounded-full bg-ok-soft px-2 py-0.5 text-[10px] font-semibold text-ok">Disponible</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
-  const heroPhoto = brandImage("hero.jpg");
   const counterPhoto = brandImage("counter.jpg");
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pb-10 lg:px-6">
@@ -73,37 +37,37 @@ export default function Home() {
         </div>
       </nav>
 
-      <header
-        className="hero photo rounded-[24px] px-6 py-12 lg:px-16 lg:py-20"
-        style={
-          heroPhoto
-            ? {
-                backgroundImage: `linear-gradient(90deg, rgb(10 11 13 / 0.94) 0%, rgb(10 11 13 / 0.78) 55%, rgb(10 11 13 / 0.55) 100%), url(${heroPhoto})`,
-              }
-            : undefined
-        }
-      >
-        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr]">
-          <div>
-            <p className="eyebrow text-white/60">Fidelización para negocios locales</p>
-            <h1 className="mt-4 text-[2.6rem] font-medium leading-[1.03] text-balance lg:text-7xl">
-              La tarjeta de sellos, ahora en el <span className="em">teléfono</span> de tus clientes.
-            </h1>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70 lg:text-lg">
-              Sin app y sin cartón. Tus clientes escanean un código, guardan su tarjeta y vuelven por su premio.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/admin" className="btn btn-white">
-                Crear un programa <Icon name="chevron" size={16} />
-              </Link>
-              <a href="#como-funciona" className="btn btn-glass">
-                Ver cómo funciona
-              </a>
-            </div>
-          </div>
-          <Device />
+      <header className="pb-6 pt-10 text-center lg:pb-10 lg:pt-20">
+        <p className="rise mx-auto inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium shadow-[0_0_0_1px_rgb(10_11_13/0.08)]">
+          <span className="size-1.5 rounded-full bg-cobalt" />
+          Fidelización para negocios locales
+        </p>
+        <h1
+          className="rise mx-auto mt-6 max-w-4xl text-[2.7rem] font-medium leading-[1.02] text-balance lg:text-[5.25rem]"
+          style={{ animationDelay: "40ms" }}
+        >
+          La tarjeta de sellos, ahora en el <span className="em">teléfono</span> de tus clientes.
+        </h1>
+        <p
+          className="rise mx-auto mt-5 max-w-xl text-base leading-relaxed text-stone lg:text-lg"
+          style={{ animationDelay: "80ms" }}
+        >
+          Sin app y sin cartón. Tus clientes escanean un código, guardan su tarjeta y vuelven por su premio.
+        </p>
+        <div className="rise mt-8 flex flex-wrap justify-center gap-3" style={{ animationDelay: "120ms" }}>
+          <Link href="/admin" className="btn btn-ink">
+            Crear un programa <Icon name="chevron" size={16} />
+          </Link>
+          <a href="#como-funciona" className="btn btn-ghost !bg-white">
+            Ver cómo funciona
+          </a>
         </div>
       </header>
+
+      <section aria-label="Demostración interactiva" className="pt-4">
+        <p className="eyebrow mb-3 text-center text-stone">Pruébalo: da un sello y mira la tarjeta</p>
+        <HeroDemo />
+      </section>
 
       <section id="ventajas" className="scroll-mt-6 pt-16 lg:pt-24">
         <p className="eyebrow text-stone">Ventajas</p>
