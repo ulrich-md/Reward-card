@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-ink: #0b0c0e;
+  --color-coal: #15171a;
+  --color-smoke: #22252a;
+  --color-mist: #8d929b;
+  --color-paper: #ffffff;
+  --color-fog: #f3f3f1;
+  --color-line: #e8e8e4;
+  --color-lime: #c8f169;
+  --color-accent: var(--accent, #c8f169);
+  --color-on-accent: var(--on-accent, #0b0c0e);
+}
+
+html {
+  background: #0b0c0e;
+  color-scheme: dark;
+}
+
+body {
+  background: #0b0c0e;
+  color: #ffffff;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hoja blanca inferior, como en una app de wallet */
+.sheet {
+  background: #ffffff;
+  color: #0b0c0e;
+  color-scheme: light;
+  border-radius: 32px 32px 0 0;
+}
+
+.field {
+  width: 100%;
+  border-radius: 18px;
+  background: #f3f3f1;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: #0b0c0e;
+  outline: 2px solid transparent;
+  transition: outline-color 0.15s;
+}
+.field:focus {
+  outline-color: #0b0c0e;
+}
+.field::placeholder {
+  color: #a3a6ad;
+}
+.field-dark {
+  background: #22252a;
+  color: #ffffff;
+}
+.field-dark:focus {
+  outline-color: var(--accent, #c8f169);
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b6f78;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: transform 0.1s, opacity 0.15s;
+  cursor: pointer;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.btn-ink {
+  background: #0b0c0e;
+  color: #ffffff;
+}
+.btn-accent {
+  background: var(--accent, #c8f169);
+  color: var(--on-accent, #0b0c0e);
+}
+.btn-ghost {
+  background: #f3f3f1;
+  color: #0b0c0e;
+}
+.btn-smoke {
+  background: #22252a;
+  color: #ffffff;
+}
+.btn-sm {
+  padding: 9px 16px;
+  font-size: 14px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  70% { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop {
+  animation: pop 0.35s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pop { animation: none; }
+  .btn { transition: none; }
+}
