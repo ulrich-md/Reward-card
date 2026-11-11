@@ -74,7 +74,7 @@ async function Dashboard() {
           {rows.length === 0 ? (
             <div className="rounded-3xl bg-fog px-6 py-10 text-center">
               <p className="text-lg font-semibold">Crea tu primer negocio</p>
-              <p className="mx-auto mt-1 max-w-sm text-sm text-neutral-500">
+              <p className="mx-auto mt-1 max-w-sm text-sm text-stone">
                 Define su tarjeta de sellos y obtén el código QR para el mostrador en menos de un minuto.
               </p>
               <Link href="/admin/new" className="btn btn-ink mt-5">
@@ -83,7 +83,7 @@ async function Dashboard() {
             </div>
           ) : (
             <>
-              <div className="hidden grid-cols-[1fr_140px_120px_100px_24px] gap-4 border-b border-line pb-2 text-xs font-medium uppercase tracking-wide text-neutral-400 lg:grid">
+              <div className="hidden grid-cols-[1fr_140px_120px_100px_24px] gap-4 border-b border-line pb-2 text-xs font-medium uppercase tracking-wide text-stone lg:grid">
                 <span>Negocio</span>
                 <span>País</span>
                 <span className="text-right">Clientes</span>
@@ -107,21 +107,21 @@ async function Dashboard() {
                         </span>
                         <span className="min-w-0">
                           <span className="block truncate font-medium">{b.name}</span>
-                          <span className="block truncate text-sm text-neutral-500">
+                          <span className="block truncate text-sm text-stone">
                             <span className="lg:hidden">{COUNTRIES[b.country as Country]?.name} · </span>
                             {b.stampsRequired} sellos → {b.rewardText}
                           </span>
                         </span>
                       </span>
-                      <span className="hidden text-sm text-neutral-600 lg:block">
+                      <span className="hidden text-sm text-stone lg:block">
                         {COUNTRIES[b.country as Country]?.name}
                       </span>
                       <span className="tabular shrink-0 text-right">
                         <span className="font-semibold">{n}</span>
-                        <span className="text-sm text-neutral-500 lg:hidden"> clientes</span>
+                        <span className="text-sm text-stone lg:hidden"> clientes</span>
                       </span>
-                      <span className="tabular hidden text-right text-neutral-600 lg:block">{stamps}</span>
-                      <Icon name="chevron" size={18} className="hidden text-neutral-300 lg:block" />
+                      <span className="tabular hidden text-right text-stone lg:block">{stamps}</span>
+                      <Icon name="chevron" size={18} className="hidden text-stone lg:block" />
                     </Link>
                   </li>
                 ))}

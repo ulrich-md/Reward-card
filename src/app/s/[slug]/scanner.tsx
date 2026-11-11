@@ -70,7 +70,7 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
 
         <Sheet>
           <h2 className="text-lg font-semibold">¿No se puede escanear?</h2>
-          <p className="mb-4 mt-1 text-sm text-neutral-500">Escribe el código de la tarjeta o el celular del cliente.</p>
+          <p className="mb-4 mt-1 text-sm text-stone">Escribe el código de la tarjeta o el celular del cliente.</p>
           <form
             className="flex gap-2"
             onSubmit={(e) => {
@@ -115,7 +115,7 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
       <Sheet>
         <div aria-live="polite" className="mb-4 space-y-3 empty:hidden">
           {message ? (
-            <p className="flex items-center gap-2 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+            <p className="flex items-center gap-2 rounded-2xl bg-ok-soft px-4 py-3 text-sm font-medium text-ok">
               <Icon name="check" size={18} /> {message}
             </p>
           ) : null}
@@ -132,12 +132,12 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
 
         {member.rewardsAvailable > 0 ? (
           <div className="mt-4 flex items-center gap-3 rounded-3xl bg-fog p-4">
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-lime text-ink">
               <Icon name="gift" />
             </span>
             <div className="min-w-0 flex-1">
               <p className="font-semibold">{business.rewardText}</p>
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-stone">
                 {member.rewardsAvailable === 1 ? "1 recompensa lista" : `${member.rewardsAvailable} recompensas listas`}
               </p>
             </div>
@@ -159,10 +159,10 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
                 <li key={c.id} className="flex items-center gap-3 py-3">
                   <div className={`min-w-0 flex-1 ${c.redeemed ? "opacity-45" : ""}`}>
                     <p className="font-medium">{c.title}</p>
-                    {c.description ? <p className="truncate text-sm text-neutral-500">{c.description}</p> : null}
+                    {c.description ? <p className="truncate text-sm text-stone">{c.description}</p> : null}
                   </div>
                   {c.redeemed ? (
-                    <span className="text-sm font-medium text-neutral-400">Usado</span>
+                    <span className="text-sm font-medium text-stone">Usado</span>
                   ) : (
                     <button
                       className="btn btn-ghost btn-sm shrink-0"

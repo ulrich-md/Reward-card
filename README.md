@@ -11,6 +11,7 @@ en cada visita escaneando el QR de la tarjeta.
 | `/admin` | Agencia | Alta de negocios, cupones, clientes, actividad y cartel imprimible con el QR. Entra con `ADMIN_PASSWORD`. |
 | `/j/[negocio]` | Cliente | Alta: nombre + celular. Con el mismo celular recupera su tarjeta. |
 | `/c/[token]` | Cliente | Su tarjeta: sellos, QR, recompensas y cupones. Se actualiza sola. |
+| `/paleta` | Diseño | Sistema de color «Grafito y Cobalto»: tonos, usos y contraste. |
 | `/s/[negocio]` | Personal | Escáner con cámara (o búsqueda por código/celular). Entra con el PIN del local. |
 
 Todas las pantallas se adaptan a móvil y escritorio: en móvil, cabecera oscura con

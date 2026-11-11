@@ -61,7 +61,7 @@ async function Poster({ params }: Props) {
           className="mx-auto mt-7 w-64 rounded-3xl border border-line p-4 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
           dangerouslySetInnerHTML={{ __html: qr }}
         />
-        <ol className="mx-auto mt-7 max-w-xs space-y-2 text-left text-sm text-neutral-600">
+        <ol className="mx-auto mt-7 max-w-xs space-y-2 text-left text-sm text-stone">
           <li>
             <b className="text-ink">1.</b> Escanea el código con la cámara de tu celular.
           </li>

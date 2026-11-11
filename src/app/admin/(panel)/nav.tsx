@@ -25,7 +25,7 @@ export function SideNav() {
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
-              active ? "bg-white text-ink" : "text-mist hover:bg-coal hover:text-white"
+              active ? "bg-cobalt text-white" : "text-mist hover:bg-coal hover:text-white"
             }`}
           >
             <Icon name={item.icon} size={18} />
@@ -43,7 +43,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Principal"
-      className="no-print fixed inset-x-0 bottom-5 z-20 mx-auto flex w-fit gap-1 rounded-full bg-ink/90 p-1.5 shadow-2xl ring-1 ring-white/10 backdrop-blur lg:hidden"
+      className="no-print fixed inset-x-0 bottom-5 z-20 mx-auto flex w-fit gap-1 rounded-full p-1.5 shadow-2xl glass lg:hidden"
     >
       {ITEMS.map((item) => {
         const active = isActive(pathname, item.href);
@@ -53,7 +53,7 @@ export function BottomNav() {
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={`flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${
-              active ? "bg-white text-ink" : "text-white"
+              active ? "bg-cobalt text-white" : "text-white"
             }`}
           >
             <Icon name={item.icon} size={18} />

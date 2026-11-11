@@ -46,7 +46,7 @@ async function Card({ params }: Props) {
         </p>
 
         {member.rewardsAvailable > 0 ? (
-          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink">
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-lime px-4 py-2 text-sm font-semibold text-ink">
             <Icon name="gift" size={16} />
             {member.rewardsAvailable === 1 ? "Tienes" : `Tienes ${member.rewardsAvailable} ×`} {business.rewardText} por
             canjear
@@ -72,13 +72,13 @@ async function Card({ params }: Props) {
             dangerouslySetInnerHTML={{ __html: qr }}
           />
           <p className="tabular mt-3 font-mono text-lg font-semibold tracking-[0.2em]">{member.code}</p>
-          <p className="mt-1 text-sm text-neutral-500">Muestra este código en caja para recibir tu sello</p>
+          <p className="mt-1 text-sm text-stone">Muestra este código en caja para recibir tu sello</p>
           {member.walletUrl ? (
             <a href={member.walletUrl} className="btn btn-ink mt-5 w-full">
               Añadir a mi Wallet
             </a>
           ) : (
-            <p className="mt-4 rounded-2xl bg-fog px-4 py-3 text-center text-sm text-neutral-600">
+            <p className="mt-4 rounded-2xl bg-fog px-4 py-3 text-center text-sm text-stone">
               Guarda esta página en tu pantalla de inicio para tener tu tarjeta siempre a mano.
             </p>
           )}
@@ -86,7 +86,7 @@ async function Card({ params }: Props) {
 
         <h2 className="mb-2 mt-8 text-lg font-semibold">Cupones</h2>
         {coupons.length === 0 ? (
-          <p className="text-sm text-neutral-500">Aquí verás las promociones de {business.name}.</p>
+          <p className="text-sm text-stone">Aquí verás las promociones de {business.name}.</p>
         ) : (
           <ul className="divide-y divide-line">
             {coupons.map((c) => (
@@ -96,14 +96,14 @@ async function Card({ params }: Props) {
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="font-medium">{c.title}</p>
-                  <p className="truncate text-sm text-neutral-500">
+                  <p className="truncate text-sm text-stone">
                     {c.description ||
                       (c.expiresAt ? `Válido hasta el ${c.expiresAt.toLocaleDateString("es", { day: "numeric", month: "long", timeZone: "America/Costa_Rica" })}` : "Sin fecha de vencimiento")}
                   </p>
                 </div>
                 <span
                   className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${
-                    c.redeemed ? "bg-fog text-neutral-500" : "bg-emerald-50 text-emerald-700"
+                    c.redeemed ? "bg-fog text-stone" : "bg-ok-soft text-ok"
                   }`}
                 >
                   {c.redeemed ? "Usado" : "Disponible"}

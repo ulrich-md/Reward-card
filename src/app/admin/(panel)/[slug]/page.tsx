@@ -25,11 +25,11 @@ export default function Page({ params }: Props) {
 }
 
 const EVENT_LABEL: Record<string, { icon: IconName; text: string; tone: string }> = {
-  enrolled: { icon: "user", text: "Nueva tarjeta", tone: "bg-sky-50 text-sky-700" },
-  stamp: { icon: "check", text: "Sello", tone: "bg-fog text-neutral-700" },
-  reward_earned: { icon: "star", text: "Tarjeta completa", tone: "bg-amber-50 text-amber-700" },
-  reward_redeemed: { icon: "gift", text: "Recompensa entregada", tone: "bg-emerald-50 text-emerald-700" },
-  coupon_redeemed: { icon: "tag", text: "Cupón canjeado", tone: "bg-violet-50 text-violet-700" },
+  enrolled: { icon: "user", text: "Nueva tarjeta", tone: "bg-cobalt-soft text-cobalt" },
+  stamp: { icon: "check", text: "Sello", tone: "bg-fog text-stone" },
+  reward_earned: { icon: "star", text: "Tarjeta completa", tone: "bg-warn-soft text-warn" },
+  reward_redeemed: { icon: "gift", text: "Recompensa entregada", tone: "bg-ok-soft text-ok" },
+  coupon_redeemed: { icon: "tag", text: "Cupón canjeado", tone: "bg-cobalt-soft text-cobalt" },
 };
 
 const fmtTime = new Intl.DateTimeFormat("es", {
@@ -143,7 +143,7 @@ async function Detail({ params }: Props) {
                   <li key={c.id} className="flex items-center gap-3 py-3">
                     <div className={`min-w-0 flex-1 ${c.active && !expired ? "" : "opacity-45"}`}>
                       <p className="truncate font-medium">{c.title}</p>
-                      <p className="truncate text-sm text-neutral-500">
+                      <p className="truncate text-sm text-stone">
                         {expired ? "Vencido" : c.expiresAt ? `Vence el ${fmtDay.format(c.expiresAt)}` : "Sin vencimiento"}
                         {c.description ? ` · ${c.description}` : ""}
                       </p>
@@ -158,20 +158,20 @@ async function Detail({ params }: Props) {
 
           <Panel title="Apple Wallet y Google Wallet">
             {business.walletTemplateId ? (
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-stone">
                 Activa con {provider?.name ?? "el proveedor"}. Los clientes nuevos reciben el botón «Añadir a mi
                 Wallet».
               </p>
             ) : provider ? (
               <>
-                <p className="mb-4 text-sm text-neutral-500">
+                <p className="mb-4 text-sm text-stone">
                   Publica el diseño de esta tarjeta en {provider.name} para que los clientes nuevos puedan guardarla
                   en su Wallet. Consume créditos de tu cuenta.
                 </p>
                 <WalletButton slug={business.slug} />
               </>
             ) : (
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-stone">
                 Sin configurar. Por ahora los clientes usan su tarjeta web; al añadir la clave de Pass Studio
                 aparecerá aquí el botón para activarla.
               </p>
@@ -198,12 +198,12 @@ async function Detail({ params }: Props) {
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-medium">{e.name ?? "Cliente"}</p>
-                        <p className="truncate text-sm text-neutral-500">
+                        <p className="truncate text-sm text-stone">
                           {label.text}
                           {e.detail ? ` · ${e.detail}` : ""}
                         </p>
                       </div>
-                      <time className="tabular shrink-0 text-sm text-neutral-500">{fmtTime.format(e.at)}</time>
+                      <time className="tabular shrink-0 text-sm text-stone">{fmtTime.format(e.at)}</time>
                     </li>
                   );
                 })}
@@ -223,15 +223,15 @@ async function Detail({ params }: Props) {
               <ul className="divide-y divide-line">
                 {memberList.map((m) => (
                   <li key={m.id} className="flex items-center gap-3 py-3">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-fog text-sm font-semibold uppercase text-neutral-600">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-fog text-sm font-semibold uppercase text-stone">
                       {m.name.slice(0, 1)}
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-medium">{m.name}</p>
-                      <p className="tabular text-sm text-neutral-500">{m.phone}</p>
+                      <p className="tabular text-sm text-stone">{m.phone}</p>
                     </div>
                     {m.rewardsAvailable > 0 ? (
-                      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-ok-soft px-2.5 py-1 text-xs font-semibold text-ok">
                         <Icon name="gift" size={14} /> {m.rewardsAvailable}
                       </span>
                     ) : null}
@@ -261,7 +261,7 @@ async function Detail({ params }: Props) {
 function LinkRow({ label, url }: { label: string; url: string }) {
   return (
     <div className="rounded-2xl bg-fog p-3">
-      <p className="text-xs font-medium text-neutral-500">{label}</p>
+      <p className="text-xs font-medium text-stone">{label}</p>
       <div className="mt-1 flex items-center gap-2">
         <a href={url} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate text-sm font-medium underline">
           {url.replace(/^https?:\/\//, "")}

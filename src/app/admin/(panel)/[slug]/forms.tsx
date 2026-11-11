@@ -14,7 +14,7 @@ import { ErrorText } from "@/components/ui";
 function OkText({ children }: { children?: React.ReactNode }) {
   if (!children) return null;
   return (
-    <p role="status" className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+    <p role="status" className="rounded-2xl bg-ok-soft px-4 py-3 text-sm font-medium text-ok">
       {children}
     </p>
   );

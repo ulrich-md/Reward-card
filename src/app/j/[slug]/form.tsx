@@ -35,7 +35,7 @@ export function EnrollForm({
           Celular
         </label>
         <div className="flex gap-2">
-          <span className="field tabular w-auto shrink-0 text-neutral-500">+{dial}</span>
+          <span className="field tabular w-auto shrink-0 text-stone">+{dial}</span>
           <input
             id="phone"
             name="phone"
@@ -50,7 +50,7 @@ export function EnrollForm({
           />
         </div>
       </div>
-      <label className="flex items-start gap-3 text-sm leading-snug text-neutral-600">
+      <label className="flex items-start gap-3 text-sm leading-snug text-stone">
         <input type="checkbox" name="consent" required checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 size-5 shrink-0 accent-black" />
         <span>
           Autorizo a {businessName} a guardar mi nombre y celular para gestionar mi tarjeta y enviarme avisos de mis
@@ -59,7 +59,7 @@ export function EnrollForm({
       </label>
       <ErrorText>{state?.error}</ErrorText>
       <Submit pendingText="Creando tu tarjeta…">Obtener mi tarjeta</Submit>
-      <p className="text-center text-xs text-neutral-400">
+      <p className="text-center text-xs text-stone">
         ¿Ya tienes tarjeta? Usa el mismo celular y la recuperas.
       </p>
     </form>

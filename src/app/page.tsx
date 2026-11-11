@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Avatar, Hero, Icon, Phone, StampCard, brandStyle } from "@/components/ui";
+import { Avatar, Hero, Icon, Phone, StampCard } from "@/components/ui";
 
 const STEPS = [
   { icon: "scan", title: "Escanea", text: "El cliente lee el QR del mostrador con su cámara." },
@@ -9,10 +9,10 @@ const STEPS = [
 
 export default function Home() {
   return (
-    <Phone style={brandStyle("#c8f169")}>
+    <Phone>
       <Hero className="flex flex-1 flex-col pt-14 lg:block">
         <p className="text-sm font-medium text-mist">
-          <span className="mr-2 inline-block size-2.5 rounded-full bg-lime" />
+          <span className="mr-2 inline-block size-2.5 rounded-full bg-cobalt" />
           Reward Card
         </p>
         <h1 className="mt-3 text-4xl font-semibold leading-tight tracking-tight text-balance lg:mt-5 lg:text-6xl">
@@ -25,7 +25,7 @@ export default function Home() {
         <ul className="mt-8 space-y-4 lg:mt-10">
           {STEPS.map((s) => (
             <li key={s.title} className="flex items-start gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-coal text-lime">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-coal text-cobalt-300">
                 <Icon name={s.icon} size={18} />
               </span>
               <p className="text-sm leading-snug text-mist">
@@ -42,7 +42,7 @@ export default function Home() {
       </Hero>
 
       {/* Muestra de la tarjeta del cliente */}
-      <div className="mx-6 mb-10 rounded-[36px] bg-coal p-6 ring-1 ring-white/5 lg:m-0 lg:w-[400px] lg:flex-none lg:p-8">
+      <div className="mx-6 mb-10 grid-texture rounded-[36px] bg-coal p-6 ring-1 ring-white/5 lg:m-0 lg:w-[400px] lg:flex-none lg:p-8">
         <div className="flex items-center gap-3">
           <Avatar emoji="☕" />
           <div className="leading-tight">

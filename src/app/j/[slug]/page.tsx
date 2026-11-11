@@ -47,7 +47,7 @@ async function Join({ params }: Props) {
 
       <Sheet>
         <h2 className="text-xl font-semibold">Crea tu tarjeta</h2>
-        <p className="mb-5 mt-1 text-sm text-neutral-500">Tarda diez segundos y no necesitas descargar nada.</p>
+        <p className="mb-5 mt-1 text-sm text-stone">Tarda diez segundos y no necesitas descargar nada.</p>
         <EnrollForm slug={business.slug} businessName={business.name} dial={country.dial} example={country.example} />
       </Sheet>
     </Phone>

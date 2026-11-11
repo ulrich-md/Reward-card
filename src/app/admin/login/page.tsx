@@ -8,7 +8,7 @@ export default function Page() {
     <Phone>
       <Hero className="pt-14">
         <p className="text-sm font-medium text-mist">
-          <span className="mr-2 inline-block size-2.5 rounded-full bg-lime" />
+          <span className="mr-2 inline-block size-2.5 rounded-full bg-cobalt" />
           Reward Card
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight lg:mt-4 lg:text-5xl">Panel de la agencia</h1>

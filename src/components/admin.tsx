@@ -29,7 +29,7 @@ export function Panel({
       <div className="mb-4 flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-lg font-semibold">{title}</h2>
-          {description ? <p className="mt-1 text-sm text-neutral-500">{description}</p> : null}
+          {description ? <p className="mt-1 text-sm text-stone">{description}</p> : null}
         </div>
         {action}
       </div>
@@ -40,7 +40,7 @@ export function Panel({
 
 export function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
   return (
-    <div className="rounded-3xl bg-coal p-4 lg:p-6">
+    <div className="rounded-3xl bg-coal p-4 ring-1 ring-white/5 lg:p-6">
       <p className="text-xs text-mist lg:text-sm">{label}</p>
       <p className="tabular mt-1 text-2xl font-semibold lg:mt-2 lg:text-4xl">{value}</p>
       {hint ? <p className="mt-1 hidden text-sm text-mist lg:block">{hint}</p> : null}
@@ -49,5 +49,5 @@ export function Stat({ label, value, hint }: { label: string; value: ReactNode; 
 }
 
 export function Empty({ children }: { children: ReactNode }) {
-  return <p className="rounded-2xl bg-fog px-4 py-6 text-center text-sm text-neutral-500">{children}</p>;
+  return <p className="rounded-2xl bg-fog px-4 py-6 text-center text-sm text-stone">{children}</p>;
 }

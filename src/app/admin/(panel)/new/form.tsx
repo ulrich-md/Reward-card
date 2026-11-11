@@ -4,8 +4,9 @@ import { useActionState, useState } from "react";
 import { createBusinessAction, type FormState } from "@/app/actions";
 import { Submit } from "@/components/submit";
 import { Avatar, ErrorText, StampCard, brandStyle } from "@/components/ui";
+import { CARD_COLORS } from "@/lib/palette";
 
-const COLORS = ["#c8f169", "#ffd84d", "#7cc4ff", "#ff9d7a", "#c4a5ff", "#1f6f54", "#b3261e", "#111827"];
+const COLORS = CARD_COLORS.map((c) => c.hex);
 const EMOJIS = ["☕", "🍔", "🍕", "🌮", "🍦", "🥐", "💈", "💅", "🧺", "🐾"];
 
 export function NewBusinessForm() {
@@ -24,7 +25,7 @@ export function NewBusinessForm() {
       {/* Vista previa: arriba en móvil, fija a la derecha en escritorio */}
       <div
         style={brandStyle(color)}
-        className="rounded-[32px] bg-ink p-5 text-white lg:sticky lg:top-10 lg:order-last lg:p-6"
+        className="grid-texture rounded-[32px] bg-ink p-5 text-white lg:sticky lg:top-10 lg:order-last lg:p-6"
       >
         <p className="mb-4 text-xs font-medium uppercase tracking-wide text-mist">Así la ve el cliente</p>
         <div className="mb-5 flex items-center gap-3">
@@ -69,11 +70,12 @@ export function NewBusinessForm() {
             <legend className="label">Color de la tarjeta</legend>
             <input type="hidden" name="color" value={color} />
             <div className="flex flex-wrap gap-2">
-              {COLORS.map((c) => (
+              {CARD_COLORS.map(({ name, hex: c }) => (
                 <button
                   key={c}
                   type="button"
-                  aria-label={`Color ${c}`}
+                  title={name}
+                  aria-label={`Color ${name}`}
                   aria-pressed={color === c}
                   onClick={() => setColor(c)}
                   className={`size-10 rounded-full border border-black/10 ${color === c ? "ring-2 ring-black ring-offset-2" : ""}`}
@@ -150,7 +152,7 @@ export function NewBusinessForm() {
             autoComplete="off"
             required
           />
-          <p className="mt-1.5 text-xs text-neutral-500">
+          <p className="mt-1.5 text-xs text-stone">
             Los empleados lo usan para abrir el escáner. Anótalo: no se vuelve a mostrar.
           </p>
         </div>

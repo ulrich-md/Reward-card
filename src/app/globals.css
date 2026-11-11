@@ -1,27 +1,57 @@
 @import "tailwindcss";
 
+/*
+ * Paleta «Grafito y Cobalto». La misma lista, con sus usos, está en
+ * src/lib/palette.ts y se puede ver en /paleta.
+ *  - Neutros (≈60 %): grafito para fondos oscuros, papel y niebla para hojas.
+ *  - Acento (≈10 %): cobalto, solo para la acción principal, lo activo y el foco.
+ *  - Premio: lima, reservado a los momentos de recompensa.
+ */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-ink: #0b0c0e;
-  --color-coal: #15171a;
-  --color-smoke: #22252a;
-  --color-mist: #8d929b;
+
+  /* Grafito: superficies oscuras, de más profunda a más elevada */
+  --color-ink: #0a0b0d;
+  --color-coal: #131519;
+  --color-smoke: #1d2026;
+  --color-slate: #2a2e36;
+  --color-mist: #8b919c;
+
+  /* Papel: superficies claras */
   --color-paper: #ffffff;
   --color-fog: #f3f3f1;
-  --color-line: #e8e8e4;
+  --color-line: #e5e5e1;
+  --color-stone: #646972;
+
+  /* Cobalto: acento de la plataforma */
+  --color-cobalt: #3355ff;
+  --color-cobalt-300: #94a6ff;
+  --color-cobalt-soft: #e9edff;
+
+  /* Lima: momentos de premio */
   --color-lime: #c8f169;
-  --color-accent: var(--accent, #c8f169);
-  --color-on-accent: var(--on-accent, #0b0c0e);
+
+  /* Estados */
+  --color-ok: #0f7a4f;
+  --color-ok-soft: #e8f6ef;
+  --color-warn: #955600;
+  --color-warn-soft: #fff3dc;
+  --color-bad: #c2362b;
+  --color-bad-soft: #fdecea;
+
+  /* Acento en uso: cobalto, o el color de marca del negocio */
+  --color-accent: var(--accent, #3355ff);
+  --color-on-accent: var(--on-accent, #ffffff);
 }
 
 html {
-  background: #0b0c0e;
+  background: #0a0b0d;
   color-scheme: dark;
 }
 
 body {
-  background: #0b0c0e;
+  background: #0a0b0d;
   color: #ffffff;
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
@@ -32,7 +62,7 @@ body {
 /* Hoja blanca inferior, como en una app de wallet */
 .sheet {
   background: #ffffff;
-  color: #0b0c0e;
+  color: #0a0b0d;
   color-scheme: light;
   border-radius: 32px 32px 0 0;
 }
@@ -43,22 +73,22 @@ body {
   background: #f3f3f1;
   padding: 14px 16px;
   font-size: 16px;
-  color: #0b0c0e;
+  color: #0a0b0d;
   outline: 2px solid transparent;
   transition: outline-color 0.15s;
 }
 .field:focus {
-  outline-color: #0b0c0e;
+  outline-color: #0a0b0d;
 }
 .field::placeholder {
   color: #a3a6ad;
 }
 .field-dark {
-  background: #22252a;
+  background: #1d2026;
   color: #ffffff;
 }
 .field-dark:focus {
-  outline-color: var(--accent, #c8f169);
+  outline-color: var(--accent, #3355ff);
 }
 
 .label {
@@ -66,7 +96,7 @@ body {
   margin-bottom: 6px;
   font-size: 13px;
   font-weight: 500;
-  color: #6b6f78;
+  color: #646972;
 }
 
 .btn {
@@ -90,19 +120,19 @@ body {
   cursor: default;
 }
 .btn-ink {
-  background: #0b0c0e;
+  background: #0a0b0d;
   color: #ffffff;
 }
 .btn-accent {
-  background: var(--accent, #c8f169);
-  color: var(--on-accent, #0b0c0e);
+  background: var(--accent, #3355ff);
+  color: var(--on-accent, #ffffff);
 }
 .btn-ghost {
   background: #f3f3f1;
-  color: #0b0c0e;
+  color: #0a0b0d;
 }
 .btn-smoke {
-  background: #22252a;
+  background: #1d2026;
   color: #ffffff;
 }
 .btn-sm {
@@ -116,12 +146,12 @@ body {
 
 /* Foco visible para teclado */
 :where(a, button, input, select, summary):focus-visible {
-  outline: 2px solid var(--accent, #c8f169);
+  outline: 2px solid var(--accent, #94a6ff);
   outline-offset: 2px;
 }
 .sheet :where(a, button, select):focus-visible,
 .admin-body :where(a, button, select):focus-visible {
-  outline-color: #0b0c0e;
+  outline-color: #0a0b0d;
 }
 
 /* Escritorio: la hoja inferior pasa a ser una tarjeta flotante */
@@ -136,7 +166,7 @@ body {
 .admin-body {
   flex: 1;
   background: #ffffff;
-  color: #0b0c0e;
+  color: #0a0b0d;
   color-scheme: light;
   border-radius: 32px 32px 0 0;
   padding: 12px 20px 120px;
@@ -156,7 +186,7 @@ body {
 
 .skeleton {
   border-radius: 20px;
-  background: #15171a;
+  background: #131519;
   animation: pulse 1.4s ease-in-out infinite;
 }
 @keyframes pulse {
@@ -179,6 +209,22 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .pop { animation: none; }
   .btn { transition: none; }
+}
+
+/* Vidrio: barras y píldoras flotantes sobre fondo oscuro */
+.glass {
+  background: rgb(29 32 38 / 0.62);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+/* Trama de cuadrícula para tarjetas oscuras destacadas */
+.grid-texture {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 @media print {

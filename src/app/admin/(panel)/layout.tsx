@@ -9,7 +9,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       <Glow />
       <aside className="no-print sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-white/5 p-5 lg:flex">
         <p className="px-4 pb-8 pt-3 text-lg font-semibold tracking-tight">
-          <span className="mr-2 inline-block size-3 rounded-full bg-lime" />
+          <span className="mr-2 inline-block size-3 rounded-full bg-cobalt" />
           Reward Card
         </p>
         <Suspense>
