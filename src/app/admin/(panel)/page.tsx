@@ -20,7 +20,7 @@ export default function Page() {
 }
 
 async function Dashboard() {
-  if (!(await isAdmin())) redirect("/admin/login");
+  if (!(await isAdmin())) redirect("/");
   const db = await getDb();
   const { businesses, members } = schema;
   const rows = await db

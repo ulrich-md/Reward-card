@@ -11,7 +11,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         <Suspense>
           <SideNav />
         </Suspense>
-        <form action={adminLogoutAction} className="mt-auto">
+        <a
+          href="/presentacion"
+          className="mt-auto flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-stone transition-colors duration-200 hover:bg-fog hover:text-ink"
+        >
+          <Icon name="star" size={18} />
+          Presentación
+        </a>
+        <form action={adminLogoutAction}>
           <button className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-stone transition-colors duration-200 hover:bg-fog hover:text-ink">
             <Icon name="logout" size={18} />
             Cerrar sesión

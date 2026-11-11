@@ -13,6 +13,8 @@ export const businesses = pgTable("businesses", {
   rewardText: text("reward_text").notNull(),
   pinHash: text("pin_hash").notNull(),
   walletTemplateId: text("wallet_template_id"),
+  /** Huella del código con el que entra el dueño del negocio. */
+  accessHash: text("access_hash").unique(),
   createdAt: ts("created_at").notNull().defaultNow(),
 });
 

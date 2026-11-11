@@ -13,6 +13,11 @@ create table if not exists businesses (
   created_at timestamptz not null default now()
 );
 
+-- Cambios sobre bases ya creadas con versiones anteriores del esquema.
+alter table businesses add column if not exists icon text not null default 'coffee';
+alter table businesses add column if not exists access_hash text;
+create unique index if not exists businesses_access_hash on businesses (access_hash);
+
 create table if not exists members (
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references businesses(id) on delete cascade,

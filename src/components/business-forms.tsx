@@ -4,8 +4,10 @@ import { useActionState, useState, useTransition } from "react";
 import {
   activateWalletAction,
   createCouponAction,
+  regenerateAccessAction,
   resetPinAction,
   toggleCouponAction,
+  type AccessState,
   type FormState,
 } from "@/app/actions";
 import { Submit } from "@/components/submit";
@@ -99,6 +101,34 @@ export function WalletButton({ slug }: { slug: string }) {
       <OkText>{state?.ok}</OkText>
       <Submit className="btn btn-ink btn-sm" pendingText="Publicando…">
         Activar tarjeta de Wallet
+      </Submit>
+    </form>
+  );
+}
+
+export function AccessCodeForm({ slug, hasCode }: { slug: string; hasCode: boolean }) {
+  const [state, action] = useActionState<AccessState>(regenerateAccessAction.bind(null, slug), undefined);
+  return (
+    <form action={action} className="space-y-3">
+      {state?.code ? (
+        <div className="rounded-2xl bg-fog p-4 shadow-[inset_0_0_0_1px_rgb(10_11_13/0.06)]">
+          <p className="eyebrow text-stone">Código de acceso</p>
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <p className="font-mono text-lg font-semibold tracking-wider">{state.code}</p>
+            <CopyButton text={state.code} />
+          </div>
+        </div>
+      ) : (
+        <p className="text-sm text-stone">
+          {hasCode
+            ? "Ya tiene un código. Si lo cambias, el anterior deja de funcionar."
+            : "Todavía no tiene código. Créalo y envíaselo al dueño del negocio."}
+        </p>
+      )}
+      <ErrorText>{state?.error}</ErrorText>
+      <OkText>{state?.ok}</OkText>
+      <Submit className="btn btn-ink btn-sm" pendingText="Creando…">
+        {hasCode || state?.code ? "Cambiar el código" : "Crear código de acceso"}
       </Submit>
     </form>
   );

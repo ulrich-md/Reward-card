@@ -8,12 +8,16 @@ import { getDb, schema } from "@/db";
 import type { Business, Member } from "@/db/schema";
 import {
   clearAttempts,
+  hashAccessCode,
   hashPin,
   isAdmin,
   loginAdmin,
+  loginOwner,
   loginStaff,
   logoutAdmin,
+  logoutOwner,
   logoutStaff,
+  ownerBusinessId,
   staffBusinessId,
   tooManyAttempts,
   verifyPin,
@@ -28,12 +32,13 @@ import {
   redeemReward,
 } from "@/lib/loyalty";
 import { STAMPS } from "@/lib/stamps";
-import { COUNTRIES, isHexColor, slugify } from "@/lib/util";
+import { COUNTRIES, isHexColor, newCode, slugify } from "@/lib/util";
 import { walletProvider } from "@/lib/wallet";
 
 const { businesses, coupons, members } = schema;
 
 export type FormState = { error?: string; ok?: string } | undefined;
+export type AccessState = { error?: string; ok?: string; code?: string } | undefined;
 
 async function clientKey(scope: string): Promise<string> {
   const h = await headers();
@@ -44,21 +49,57 @@ const str = (fd: FormData, key: string) => String(fd.get(key) ?? "").trim();
 
 // ───────────── Administración (agencia) ─────────────
 
-export async function adminLoginAction(_: FormState, fd: FormData): Promise<FormState> {
-  const key = await clientKey("admin");
+/**
+ * Entrada única. La misma casilla sirve para la agencia (su contraseña) y para
+ * cada negocio (su código de acceso); según cuál sea, se abre un panel u otro.
+ */
+export async function accessAction(_: FormState, fd: FormData): Promise<FormState> {
+  const key = await clientKey("access");
   if (tooManyAttempts(key)) return { error: "Demasiados intentos. Espera unos minutos." };
-  if (!(await loginAdmin(str(fd, "password")))) return { error: "Contraseña incorrecta." };
+  const input = str(fd, "password");
+  if (!input) return { error: "Escribe tu contraseña." };
+
+  if (await loginAdmin(input)) {
+    clearAttempts(key);
+    redirect("/admin");
+  }
+  const db = await getDb();
+  const [business] = await db
+    .select({ id: businesses.id })
+    .from(businesses)
+    .where(eq(businesses.accessHash, hashAccessCode(input)))
+    .limit(1);
+  if (!business) return { error: "Contraseña incorrecta." };
   clearAttempts(key);
-  redirect("/admin");
+  await loginOwner(business.id);
+  redirect("/panel");
+}
+
+export async function ownerLogoutAction() {
+  await logoutOwner();
+  redirect("/");
 }
 
 export async function adminLogoutAction() {
   await logoutAdmin();
-  redirect("/admin/login");
+  redirect("/");
 }
 
 async function requireAdmin() {
-  if (!(await isAdmin())) redirect("/admin/login");
+  if (!(await isAdmin())) redirect("/");
+}
+
+/** El negocio, si quien llama es la agencia o el dueño de ese negocio. */
+async function manageable(slug: string): Promise<Business | null> {
+  const business = await businessBySlug(slug);
+  if (!business) return null;
+  if (await isAdmin()) return business;
+  return (await ownerBusinessId()) === business.id ? business : null;
+}
+
+function refresh(slug: string) {
+  revalidatePath(`/admin/${slug}`);
+  revalidatePath("/panel");
 }
 
 export async function createBusinessAction(_: FormState, fd: FormData): Promise<FormState> {
@@ -95,9 +136,8 @@ export async function createBusinessAction(_: FormState, fd: FormData): Promise<
 }
 
 export async function createCouponAction(slug: string, _: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
-  const business = await businessBySlug(slug);
-  if (!business) return { error: "Negocio no encontrado." };
+  const business = await manageable(slug);
+  if (!business) return { error: "No tienes acceso a este negocio." };
   const title = str(fd, "title");
   const description = str(fd, "description");
   const expires = str(fd, "expiresAt");
@@ -112,29 +152,45 @@ export async function createCouponAction(slug: string, _: FormState, fd: FormDat
   }
   const db = await getDb();
   await db.insert(coupons).values({ businessId: business.id, title, description, expiresAt });
-  revalidatePath(`/admin/${slug}`);
+  refresh(slug);
   return { ok: "Cupón creado. Ya aparece en las tarjetas de los clientes." };
 }
 
 export async function toggleCouponAction(slug: string, couponId: string, active: boolean) {
-  await requireAdmin();
-  const business = await businessBySlug(slug);
+  const business = await manageable(slug);
   if (!business) return;
   const db = await getDb();
   await db
     .update(coupons)
     .set({ active })
     .where(and(eq(coupons.id, couponId), eq(coupons.businessId, business.id)));
-  revalidatePath(`/admin/${slug}`);
+  refresh(slug);
 }
 
 export async function resetPinAction(slug: string, _: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
+  const business = await manageable(slug);
+  if (!business) return { error: "No tienes acceso a este negocio." };
   const pin = str(fd, "pin");
   if (!/^\d{4,8}$/.test(pin)) return { error: "El PIN debe tener de 4 a 8 dígitos." };
   const db = await getDb();
-  await db.update(businesses).set({ pinHash: hashPin(pin) }).where(eq(businesses.slug, slug));
+  await db.update(businesses).set({ pinHash: hashPin(pin) }).where(eq(businesses.id, business.id));
   return { ok: "PIN actualizado." };
+}
+
+/**
+ * Crea (o cambia) el código con el que entra el dueño del negocio. Solo lo
+ * puede hacer la agencia. El código se muestra una vez: se guarda su huella.
+ */
+export async function regenerateAccessAction(slug: string): Promise<AccessState> {
+  await requireAdmin();
+  const business = await businessBySlug(slug);
+  if (!business) return { error: "Negocio no encontrado." };
+  const raw = newCode(12);
+  const code = `${raw.slice(0, 4)}-${raw.slice(4, 8)}-${raw.slice(8)}`;
+  const db = await getDb();
+  await db.update(businesses).set({ accessHash: hashAccessCode(code) }).where(eq(businesses.id, business.id));
+  refresh(slug);
+  return { ok: "Código creado. Cópialo ahora: no se vuelve a mostrar.", code };
 }
 
 export async function activateWalletAction(slug: string): Promise<FormState> {

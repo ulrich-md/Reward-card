@@ -30,7 +30,30 @@ async function create(): Promise<Db> {
   mkdirSync(dir, { recursive: true });
   const client = new PGlite(dir);
   await client.exec(readFileSync(path.join(process.cwd(), "src/db/schema.sql"), "utf8"));
-  return drizzle(client, { schema });
+  const db = drizzle(client, { schema });
+  await seedDemo(db);
+  return db;
+}
+
+/**
+ * Negocio de prueba para la base local (nunca se crea en Supabase). Sus
+ * credenciales son públicas a propósito: código DEMO-CAFE-2026 y PIN 1234.
+ */
+async function seedDemo(db: Db) {
+  const existing = await db.select({ id: schema.businesses.id }).from(schema.businesses).limit(1);
+  if (existing.length > 0) return;
+  const { hashAccessCode, hashPin } = await import("@/lib/auth");
+  await db.insert(schema.businesses).values({
+    slug: "cafe-demo",
+    name: "Café Demo",
+    country: "CR",
+    color: "#ffd84d",
+    icon: "coffee",
+    stampsRequired: 8,
+    rewardText: "un café gratis",
+    pinHash: hashPin("1234"),
+    accessHash: hashAccessCode("DEMO-CAFE-2026"),
+  });
 }
 
 export async function getDb(): Promise<Db> {

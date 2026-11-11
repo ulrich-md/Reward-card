@@ -1,10 +1,11 @@
 import "server-only";
-import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { createHash, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies, headers } from "next/headers";
 
 const ADMIN_COOKIE = "rc_admin";
 const STAFF_COOKIE = "rc_staff";
+const OWNER_COOKIE = "rc_owner";
 const isProd = process.env.NODE_ENV === "production";
 
 function secret(): Uint8Array {
@@ -86,6 +87,33 @@ export async function loginStaff(businessId: string) {
 export async function staffBusinessId(): Promise<string | null> {
   const biz = (await readSession(STAFF_COOKIE))?.biz;
   return typeof biz === "string" ? biz : null;
+}
+
+/** Deja solo letras y números, en mayúsculas: así el código se puede escribir con o sin guiones. */
+export function normalizeAccessCode(raw: string): string {
+  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "");
+}
+
+/**
+ * Huella del código de acceso de un negocio. Es determinista para poder
+ * buscar el negocio por su código; vale porque el código es largo y aleatorio.
+ */
+export function hashAccessCode(raw: string): string {
+  return createHash("sha256").update(normalizeAccessCode(raw)).digest("hex");
+}
+
+export async function loginOwner(businessId: string) {
+  await setSession(OWNER_COOKIE, { biz: businessId }, 30);
+}
+
+/** Id del negocio cuyo dueño tiene sesión en este dispositivo. */
+export async function ownerBusinessId(): Promise<string | null> {
+  const biz = (await readSession(OWNER_COOKIE))?.biz;
+  return typeof biz === "string" ? biz : null;
+}
+
+export async function logoutOwner() {
+  (await cookies()).delete(OWNER_COOKIE);
 }
 
 export async function logoutStaff() {

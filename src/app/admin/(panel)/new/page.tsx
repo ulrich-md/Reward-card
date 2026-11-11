@@ -17,7 +17,7 @@ export default function Page() {
 }
 
 async function New() {
-  if (!(await isAdmin())) redirect("/admin/login");
+  if (!(await isAdmin())) redirect("/");
   return (
     <>
       <AdminHeader>
