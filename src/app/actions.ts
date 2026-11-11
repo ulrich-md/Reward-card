@@ -17,6 +17,7 @@ import {
   logoutAdmin,
   logoutOwner,
   logoutStaff,
+  missingConfig,
   ownerBusinessId,
   staffBusinessId,
   tooManyAttempts,
@@ -54,6 +55,8 @@ const str = (fd: FormData, key: string) => String(fd.get(key) ?? "").trim();
  * cada negocio (su código de acceso); según cuál sea, se abre un panel u otro.
  */
 export async function accessAction(_: FormState, fd: FormData): Promise<FormState> {
+  const problem = missingConfig();
+  if (problem) return { error: problem };
   const key = await clientKey("access");
   if (tooManyAttempts(key)) return { error: "Demasiados intentos. Espera unos minutos." };
   const input = str(fd, "password");

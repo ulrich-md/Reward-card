@@ -20,6 +20,22 @@ function adminPassword(): string {
   return p ?? "admin";
 }
 
+/**
+ * Qué falta por configurar en un despliegue, en palabras para quien lo
+ * publica, o null si está todo. En local no falta nada: hay valores de prueba.
+ */
+export function missingConfig(): string | null {
+  if (!isProd) return null;
+  const missing = [
+    !process.env.ADMIN_PASSWORD && "ADMIN_PASSWORD",
+    !process.env.SESSION_SECRET && "SESSION_SECRET",
+    process.env.VERCEL && !process.env.DATABASE_URL && "DATABASE_URL",
+  ].filter(Boolean);
+  return missing.length > 0
+    ? `Falta configurar ${missing.join(", ")} en las variables de entorno del despliegue.`
+    : null;
+}
+
 async function setSession(name: string, claims: Record<string, string>, days: number) {
   const token = await new SignJWT(claims)
     .setProtectedHeader({ alg: "HS256" })
