@@ -5,23 +5,23 @@
 export type Swatch = { name: string; token: string; hex: string; use: string };
 
 export const GRAPHITE: Swatch[] = [
-  { name: "Tinta", token: "ink", hex: "#0a0b0d", use: "Fondo de la app. Negro suavizado, no puro." },
-  { name: "Carbón", token: "coal", hex: "#131519", use: "Tarjetas y cifras sobre el fondo." },
-  { name: "Humo", token: "smoke", hex: "#1d2026", use: "Botones secundarios y campos en oscuro." },
-  { name: "Pizarra", token: "slate", hex: "#2a2e36", use: "Bordes y separadores en oscuro." },
-  { name: "Bruma", token: "mist", hex: "#8b919c", use: "Texto secundario sobre oscuro." },
+  { name: "Tinta", token: "ink", hex: "#0a0b0d", use: "Paneles destacados, texto y botón principal." },
+  { name: "Carbón", token: "coal", hex: "#131519", use: "Parte alta del degradado de los paneles." },
+  { name: "Humo", token: "smoke", hex: "#1d2026", use: "Superficies dentro de un panel oscuro." },
+  { name: "Pizarra", token: "slate", hex: "#2a2e36", use: "Estado al pasar el cursor sobre el botón principal." },
+  { name: "Bruma", token: "mist", hex: "#8b919c", use: "Texto secundario dentro de paneles oscuros." },
 ];
 
 export const PAPER: Swatch[] = [
-  { name: "Papel", token: "paper", hex: "#ffffff", use: "Hojas y tarjetas claras." },
-  { name: "Niebla", token: "fog", hex: "#f3f3f1", use: "Campos, filas y bloques dentro de una hoja." },
-  { name: "Línea", token: "line", hex: "#e5e5e1", use: "Separadores y bordes en claro." },
+  { name: "Papel", token: "paper", hex: "#ffffff", use: "Tarjetas y campos con foco." },
+  { name: "Niebla", token: "fog", hex: "#f1f1ee", use: "Fondo de la app, campos y filas." },
+  { name: "Línea", token: "line", hex: "#e3e3de", use: "Separadores y bordes en claro." },
   { name: "Piedra", token: "stone", hex: "#646972", use: "Texto secundario sobre claro." },
 ];
 
 export const ACCENT: Swatch[] = [
-  { name: "Cobalto", token: "cobalt", hex: "#3355ff", use: "Acción principal, elemento activo, insignias y foco." },
-  { name: "Cobalto claro", token: "cobalt-300", hex: "#94a6ff", use: "Iconos y enlaces de acento sobre oscuro." },
+  { name: "Cobalto", token: "cobalt", hex: "#3355ff", use: "Enlaces, insignias, foco y marca de la plataforma." },
+  { name: "Cobalto claro", token: "cobalt-300", hex: "#94a6ff", use: "Acento dentro de paneles oscuros." },
   { name: "Cobalto suave", token: "cobalt-soft", hex: "#e9edff", use: "Fondo de etiquetas e iconos sobre claro." },
   { name: "Lima", token: "lime", hex: "#c8f169", use: "Solo para premios: recompensa lista o tarjeta completa." },
 ];

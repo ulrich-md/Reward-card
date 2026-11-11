@@ -2,11 +2,10 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
-import { Icon, Loading } from "@/components/ui";
+import { BrandMark, Icon, Loading, brandStyle } from "@/components/ui";
 import { isAdmin } from "@/lib/auth";
 import { businessBySlug } from "@/lib/loyalty";
 import { qrSvg } from "@/lib/qr";
-import { inkOn } from "@/lib/util";
 import { PrintButton } from "./print-button";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -31,11 +30,11 @@ async function Poster({ params }: Props) {
   const qr = await qrSvg(`${origin}/j/${business.slug}`);
 
   return (
-    <div className="flex flex-1 flex-col px-6 pb-28 pt-8 lg:p-0">
+    <div style={brandStyle(business.color)} className="flex flex-1 flex-col px-4 pb-32 pt-6 lg:p-0">
       <div className="no-print mb-6 flex items-center justify-between gap-4">
         <Link
           href={`/admin/${business.slug}`}
-          className="inline-flex items-center gap-2 text-sm font-medium text-mist hover:text-white"
+          className="inline-flex items-center gap-2 text-sm font-medium text-stone transition-colors hover:text-ink"
         >
           <Icon name="back" size={16} /> {business.name}
         </Link>
@@ -43,22 +42,18 @@ async function Poster({ params }: Props) {
       </div>
 
       {/* El cartel siempre es claro: está pensado para imprimirse */}
-      <div className="mx-auto w-full max-w-md rounded-[32px] bg-white p-8 text-center text-ink print:max-w-none print:rounded-none">
-        <span
-          aria-hidden
-          className="mx-auto flex size-16 items-center justify-center rounded-full text-3xl"
-          style={{ background: business.color, color: inkOn(business.color), printColorAdjust: "exact" }}
-        >
-          {business.emoji}
+      <div className="card mx-auto w-full max-w-md !p-8 text-center print:max-w-none print:shadow-none">
+<span className="inline-flex [print-color-adjust:exact]">
+          <BrandMark icon={business.icon} size={64} />
         </span>
-        <p className="mt-4 text-lg font-semibold">{business.name}</p>
-        <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight">
-          Junta {business.stampsRequired} sellos y llévate {business.rewardText}
+        <p className="mt-4 font-display text-lg font-semibold">{business.name}</p>
+        <h1 className="mt-3 text-4xl font-medium leading-[1.05] text-balance">
+          Junta {business.stampsRequired} sellos y llévate <span className="em">{business.rewardText}</span>
         </h1>
         <div
           role="img"
           aria-label="Código QR de alta"
-          className="mx-auto mt-7 w-64 rounded-3xl border border-line p-4 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+          className="mx-auto mt-7 w-64 rounded-3xl p-4 shadow-[0_0_0_1px_rgb(10_11_13/0.1)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
           dangerouslySetInnerHTML={{ __html: qr }}
         />
         <ol className="mx-auto mt-7 max-w-xs space-y-2 text-left text-sm text-stone">

@@ -23,7 +23,7 @@ function OkText({ children }: { children?: React.ReactNode }) {
 export function CouponForm({ slug }: { slug: string }) {
   const [state, action] = useActionState<FormState, FormData>(createCouponAction.bind(null, slug), undefined);
   return (
-    <form action={action} className="space-y-3 rounded-3xl border border-line p-4">
+    <form action={action} className="space-y-3 rounded-3xl p-4 shadow-[inset_0_0_0_1px_rgb(10_11_13/0.08)]">
       <p className="font-semibold">Nuevo cupón</p>
       <div>
         <label className="label" htmlFor="title">

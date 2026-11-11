@@ -14,8 +14,14 @@ en cada visita escaneando el QR de la tarjeta.
 | `/paleta` | Diseño | Sistema de color «Grafito y Cobalto»: tonos, usos y contraste. |
 | `/s/[negocio]` | Personal | Escáner con cámara (o búsqueda por código/celular). Entra con el PIN del local. |
 
-Todas las pantallas se adaptan a móvil y escritorio: en móvil, cabecera oscura con
-hoja blanca inferior; en escritorio, dos columnas y barra lateral en el panel.
+Todas las pantallas se adaptan a móvil y escritorio. El fondo es claro; lo
+importante va en un panel de grafito con grano y el brillo del color del negocio,
+y el resto en tarjetas blancas. Tipografías: Bricolage Grotesque (titulares y
+cifras), Hanken Grotesk (interfaz), Instrument Serif (énfasis) y JetBrains Mono
+(datos). Iconos de Lucide; los negocios eligen su sello de un juego de iconos.
+
+La skill de diseño `ui-ux-pro-max` está instalada en `.claude/skills/` (licencia
+MIT, de nextlevelbuilder/ui-ux-pro-max-skill).
 
 ## Desarrollo
 

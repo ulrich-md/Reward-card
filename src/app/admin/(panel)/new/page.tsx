@@ -21,11 +21,13 @@ async function New() {
   return (
     <>
       <AdminHeader>
-        <Link href="/admin" className="inline-flex items-center gap-2 text-sm font-medium text-mist hover:text-white">
+        <Link href="/admin" className="inline-flex items-center gap-2 text-sm font-medium text-white/60 transition-colors hover:text-white">
           <Icon name="back" size={16} /> Negocios
         </Link>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight">Nuevo negocio</h1>
-        <p className="mt-1 text-sm text-mist">Define la tarjeta y mira a la vez cómo la verá el cliente.</p>
+        <h1 className="mt-5 text-4xl font-medium leading-[1.05] lg:text-5xl">
+          Nuevo <span className="em">negocio</span>
+        </h1>
+        <p className="mt-2 text-sm text-white/60">Define la tarjeta y mira a la vez cómo la verá el cliente.</p>
       </AdminHeader>
       <AdminBody>
         <NewBusinessForm />

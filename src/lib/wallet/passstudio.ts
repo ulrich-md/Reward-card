@@ -36,7 +36,7 @@ export const passStudio: WalletProvider = {
         organizationName: business.name,
         title: business.name,
         backgroundColor: business.color,
-        stampGrid: { count: business.stampsRequired, stamp: business.emoji },
+        stampGrid: { count: business.stampsRequired },
       },
     });
     return out.pass.passId;

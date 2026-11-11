@@ -5,7 +5,7 @@ create table if not exists businesses (
   name text not null,
   country text not null default 'CR',
   color text not null default '#c8f169',
-  emoji text not null default '☕',
+  icon text not null default 'coffee',
   stamps_required integer not null default 10,
   reward_text text not null,
   pin_hash text not null,

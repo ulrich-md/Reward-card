@@ -1,4 +1,22 @@
+import {
+  ArrowLeft,
+  Check,
+  ChevronRight,
+  Gift,
+  LogOut,
+  Plus,
+  Printer,
+  QrCode,
+  ScanLine,
+  Star,
+  Store,
+  Tag,
+  UserPlus,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
+import { StampIcon } from "@/lib/stamps";
 import { inkOn } from "@/lib/util";
 
 /** Variables CSS de marca para un negocio. */
@@ -6,53 +24,72 @@ export function brandStyle(color: string): CSSProperties {
   return { "--accent": color, "--on-accent": inkOn(color) } as CSSProperties;
 }
 
-/** Resplandor suave con el color de marca detrás del contenido. */
-export function Glow() {
-  return (
-    <div
-      aria-hidden
-      className="no-print pointer-events-none fixed -top-48 left-1/2 -z-10 size-[560px] -translate-x-1/4 rounded-full bg-accent opacity-[0.13] blur-[130px]"
-    />
-  );
-}
-
 /**
- * Marco de las pantallas públicas. En móvil: cabecera oscura y hoja blanca
- * debajo. En escritorio: dos columnas, con la hoja como tarjeta a la derecha.
+ * Marco de las pantallas públicas sobre fondo claro. En móvil: panel oscuro
+ * arriba y tarjetas debajo. En escritorio: panel a la izquierda y tarjetas a
+ * la derecha.
  */
 export function Phone({ children, style }: { children: ReactNode; style?: CSSProperties }) {
   return (
     <div
       style={style}
-      className="relative isolate mx-auto flex min-h-dvh w-full max-w-md flex-col lg:max-w-5xl lg:flex-row lg:items-center lg:gap-14 lg:px-10 lg:py-12"
+      className="mx-auto flex min-h-dvh w-full max-w-md flex-col lg:max-w-6xl lg:flex-row lg:items-stretch lg:gap-6 lg:p-6"
     >
-      <Glow />
       {children}
     </div>
   );
 }
 
+/** Panel oscuro destacado, con grano y brillo del color de marca. */
 export function Hero({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <header className={`px-6 pb-7 pt-8 lg:min-w-0 lg:flex-1 lg:p-0 ${className}`}>{children}</header>;
+  return (
+    <header
+      className={`hero rounded-b-[40px] px-6 pb-9 pt-7 lg:flex lg:min-w-0 lg:flex-1 lg:flex-col lg:justify-center lg:rounded-[40px] lg:p-14 ${className}`}
+    >
+      {children}
+    </header>
+  );
 }
 
-export function Sheet({ children, className = "" }: { children: ReactNode; className?: string }) {
+/** Columna de contenido claro junto al panel. */
+export function Content({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`sheet flex-1 px-5 pb-10 pt-3 lg:w-[440px] lg:flex-none lg:p-8 ${className}`}>
-      <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-line lg:hidden" />
+    <div className={`flex-1 space-y-4 px-4 pb-10 pt-4 lg:w-[460px] lg:flex-none lg:self-center lg:p-0 ${className}`}>
       {children}
     </div>
   );
 }
 
-export function Avatar({ emoji, size = 44 }: { emoji: string; size?: number }) {
+/** Contenido en una sola tarjeta blanca. */
+export function Sheet({ children }: { children: ReactNode }) {
+  return (
+    <Content>
+      <div className="card">{children}</div>
+    </Content>
+  );
+}
+
+/** Marca del negocio: su sello dentro de un círculo con su color. */
+export function BrandMark({ icon, size = 44 }: { icon: string; size?: number }) {
   return (
     <span
       aria-hidden
-      className="inline-flex shrink-0 items-center justify-center rounded-full bg-accent text-on-accent"
-      style={{ width: size, height: size, fontSize: size * 0.5 }}
+      className="inline-flex shrink-0 items-center justify-center rounded-full bg-accent text-on-accent shadow-[inset_0_1px_0_rgb(255_255_255/0.35)]"
+      style={{ width: size, height: size }}
     >
-      {emoji}
+      <StampIcon name={icon} size={Math.round(size * 0.46)} />
+    </span>
+  );
+}
+
+/** Marca de la plataforma. */
+export function Wordmark({ className = "" }: { className?: string }) {
+  return (
+    <span className={`inline-flex items-center gap-2 font-display text-[15px] font-semibold tracking-tight ${className}`}>
+      <span aria-hidden className="flex size-6 items-center justify-center rounded-lg bg-cobalt text-white">
+        <Check size={14} strokeWidth={3} />
+      </span>
+      Reward Card
     </span>
   );
 }
@@ -60,12 +97,12 @@ export function Avatar({ emoji, size = 44 }: { emoji: string; size?: number }) {
 export function StampGrid({
   filled,
   total,
-  emoji,
+  icon,
   highlight,
 }: {
   filled: number;
   total: number;
-  emoji: string;
+  icon: string;
   /** Índice del sello recién añadido, para animarlo. */
   highlight?: number;
 }) {
@@ -80,58 +117,64 @@ export function StampGrid({
       {Array.from({ length: total }, (_, i) => (
         <span
           key={i}
-          className={`flex aspect-square max-h-20 items-center justify-center justify-self-center rounded-full text-lg ${
+          className={`flex aspect-square w-full max-w-16 items-center justify-center justify-self-center rounded-full ${
             i < filled
               ? `bg-on-accent text-accent ${highlight === i ? "pop" : ""}`
-              : "border-2 border-dashed border-on-accent/30"
+              : "border border-dashed border-on-accent/40"
           }`}
-          style={{ width: "100%" }}
         >
-          {i < filled ? <span className="scale-90">{emoji}</span> : null}
+          {i < filled ? (
+            <StampIcon name={icon} size={20} />
+          ) : (
+            <span className="font-mono text-[11px] font-medium opacity-45">{i + 1}</span>
+          )}
         </span>
       ))}
     </div>
   );
 }
 
-/** Tarjeta de sellos con el color de la marca. */
+/** Tarjeta de sellos con forma de pase: color de marca, muescas y pie punteado. */
 export function StampCard({
   title,
   filled,
   total,
-  emoji,
+  icon,
   footer,
   highlight,
 }: {
-  title?: string;
+  title: string;
   filled: number;
   total: number;
-  emoji: string;
-  footer?: ReactNode;
+  icon: string;
+  footer: ReactNode;
   highlight?: number;
 }) {
   return (
-    <div className="rounded-[28px] bg-accent p-5 text-on-accent shadow-[0_24px_60px_-28px_var(--accent)] lg:p-6">
-      {title ? (
-        <div className="mb-4 flex items-baseline justify-between gap-3 text-sm font-semibold">
-          <span className="truncate">{title}</span>
-          <span className="tabular shrink-0">
-            {filled} / {total}
-          </span>
+    <div style={{ filter: "drop-shadow(0 20px 28px color-mix(in srgb, var(--accent, #3355ff) 30%, transparent))" }}>
+      <div className="pass rounded-[28px] bg-accent text-on-accent">
+        <div className="p-5 pb-4">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <span className="eyebrow truncate opacity-80">{title}</span>
+            <span className="tabular shrink-0 font-display text-sm font-semibold">
+              {filled} / {total}
+            </span>
+          </div>
+          <StampGrid filled={filled} total={total} icon={icon} highlight={highlight} />
         </div>
-      ) : null}
-      <StampGrid filled={filled} total={total} emoji={emoji} highlight={highlight} />
-      {footer ? <p className="mt-4 text-sm font-medium opacity-75">{footer}</p> : null}
+        <div className="flex h-[58px] items-center border-t border-dashed border-on-accent/35 px-5">
+          <p className="truncate text-sm font-medium">{footer}</p>
+        </div>
+      </div>
     </div>
   );
 }
 
 export function Loading() {
   return (
-    <div role="status" aria-label="Cargando" className="mx-auto w-full max-w-md space-y-4 px-6 pt-10 lg:max-w-5xl">
-      <div className="skeleton h-12 w-48" />
-      <div className="skeleton h-24 w-64" />
-      <div className="skeleton h-44 w-full max-w-md" />
+    <div role="status" aria-label="Cargando" className="mx-auto w-full max-w-md space-y-4 p-4 lg:max-w-6xl lg:p-6">
+      <div className="skeleton h-72 w-full rounded-[40px]" />
+      <div className="skeleton h-40 w-full rounded-[28px]" />
     </div>
   );
 }
@@ -146,36 +189,34 @@ export function ErrorText({ children }: { children?: ReactNode }) {
 }
 
 const ICONS = {
-  store: "M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9c0 1.7 1.3 3 3 3s3-1.3 3-3 1.3 3 3 3 3-1.3 3-3 1.3 3 3 3 3-1.3 3-3M9 20v-5h6v5",
-  plus: "M12 5v14M5 12h14",
-  logout: "M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9",
-  check: "M20 6L9 17l-5-5",
-  gift: "M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H8.5a2.5 2.5 0 110-5C11 2 12 7 12 7zM12 7h3.5a2.5 2.5 0 100-5C13 2 12 7 12 7z",
-  tag: "M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L2 12V2h10l8.6 8.6a2 2 0 010 2.8zM7 7h.01",
-  user: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM19 8v6M22 11h-6",
-  star: "M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2 2 9.3l6.9-1z",
-  back: "M19 12H5M12 19l-7-7 7-7",
-  printer: "M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z",
-  scan: "M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2M7 12h10",
-  chevron: "M9 18l6-6-6-6",
-} as const;
+  store: Store,
+  plus: Plus,
+  logout: LogOut,
+  check: Check,
+  gift: Gift,
+  tag: Tag,
+  user: UserPlus,
+  star: Star,
+  back: ArrowLeft,
+  printer: Printer,
+  scan: ScanLine,
+  chevron: ChevronRight,
+  qr: QrCode,
+  wallet: Wallet,
+} satisfies Record<string, LucideIcon>;
 export type IconName = keyof typeof ICONS;
 
+/** Iconos de interfaz: un solo juego, mismo trazo en toda la app. */
 export function Icon({ name, size = 20, className = "" }: { name: IconName; size?: number; className?: string }) {
+  const Cmp = ICONS[name];
+  return <Cmp aria-hidden size={size} strokeWidth={1.75} className={`shrink-0 ${className}`} />;
+}
+
+/** Icono dentro de un círculo, para filas de lista. */
+export function IconBubble({ name, tone = "bg-fog text-ink" }: { name: IconName; tone?: string }) {
   return (
-    <svg
-      aria-hidden
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={`shrink-0 ${className}`}
-    >
-      <path d={ICONS[name]} />
-    </svg>
+    <span className={`flex size-10 shrink-0 items-center justify-center rounded-full ${tone}`}>
+      <Icon name={name} size={18} />
+    </span>
   );
 }

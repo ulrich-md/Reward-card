@@ -1,16 +1,14 @@
 import type { ReactNode } from "react";
 
+/** Cabecera del panel: panel oscuro con título y cifras. */
 export function AdminHeader({ children }: { children: ReactNode }) {
-  return <header className="px-6 pb-7 pt-8 lg:px-0 lg:pb-8 lg:pt-0">{children}</header>;
+  return (
+    <header className="hero rounded-b-[36px] px-6 pb-7 pt-7 lg:rounded-[36px] lg:p-10">{children}</header>
+  );
 }
 
-export function AdminBody({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={`admin-body ${className}`}>
-      <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-line lg:hidden" />
-      {children}
-    </div>
-  );
+export function AdminBody({ children }: { children: ReactNode }) {
+  return <div className="flex-1 space-y-4 px-4 pb-32 pt-4 lg:space-y-6 lg:px-0 lg:pb-0 lg:pt-6">{children}</div>;
 }
 
 export function Panel({
@@ -25,7 +23,7 @@ export function Panel({
   children: ReactNode;
 }) {
   return (
-    <section className="panel">
+    <section className="card">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-lg font-semibold">{title}</h2>
@@ -38,12 +36,12 @@ export function Panel({
   );
 }
 
-export function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
+/** Cifra dentro del panel oscuro, sobre vidrio. */
+export function Stat({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="rounded-3xl bg-coal p-4 ring-1 ring-white/5 lg:p-6">
-      <p className="text-xs text-mist lg:text-sm">{label}</p>
-      <p className="tabular mt-1 text-2xl font-semibold lg:mt-2 lg:text-4xl">{value}</p>
-      {hint ? <p className="mt-1 hidden text-sm text-mist lg:block">{hint}</p> : null}
+    <div className="glass rounded-3xl p-4 lg:p-5">
+      <p className="eyebrow text-white/60">{label}</p>
+      <p className="figure mt-2 text-3xl lg:text-5xl">{value}</p>
     </div>
   );
 }

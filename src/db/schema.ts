@@ -8,7 +8,7 @@ export const businesses = pgTable("businesses", {
   name: text("name").notNull(),
   country: text("country").notNull().default("CR"),
   color: text("color").notNull().default("#c8f169"),
-  emoji: text("emoji").notNull().default("☕"),
+  icon: text("icon").notNull().default("coffee"),
   stampsRequired: integer("stamps_required").notNull().default(10),
   rewardText: text("reward_text").notNull(),
   pinHash: text("pin_hash").notNull(),

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Avatar, Hero, Icon, Phone, StampCard } from "@/components/ui";
+import { BrandMark, Content, Hero, Icon, IconBubble, Phone, StampCard, Wordmark, brandStyle } from "@/components/ui";
 
 const STEPS = [
-  { icon: "scan", title: "Escanea", text: "El cliente lee el QR del mostrador con su cámara." },
+  { icon: "qr", title: "Escanea", text: "El cliente lee el código del mostrador con su cámara." },
   { icon: "user", title: "Se registra", text: "Nombre y celular. Diez segundos, sin descargar nada." },
   { icon: "gift", title: "Vuelve", text: "Un sello por visita y su premio al completar la tarjeta." },
 ] as const;
@@ -10,52 +10,52 @@ const STEPS = [
 export default function Home() {
   return (
     <Phone>
-      <Hero className="flex flex-1 flex-col pt-14 lg:block">
-        <p className="text-sm font-medium text-mist">
-          <span className="mr-2 inline-block size-2.5 rounded-full bg-cobalt" />
-          Reward Card
-        </p>
-        <h1 className="mt-3 text-4xl font-semibold leading-tight tracking-tight text-balance lg:mt-5 lg:text-6xl">
-          Tarjetas de sellos que viven en el teléfono de tus clientes.
+      <Hero>
+        <Wordmark />
+        <h1 className="mt-10 text-[2.6rem] font-medium leading-[1.02] text-balance lg:mt-16 lg:text-7xl">
+          Tarjetas de sellos que viven en el <span className="em">teléfono</span> de tus clientes.
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-mist lg:max-w-lg lg:text-lg">
+        <p className="mt-5 max-w-md text-base leading-relaxed text-white/65 lg:text-lg">
           Sin app ni tarjetas de cartón. El cliente escanea un código, guarda su tarjeta y gana un sello en cada visita.
         </p>
-
-        <ul className="mt-8 space-y-4 lg:mt-10">
-          {STEPS.map((s) => (
-            <li key={s.title} className="flex items-start gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-coal text-cobalt-300">
-                <Icon name={s.icon} size={18} />
-              </span>
-              <p className="text-sm leading-snug text-mist">
-                <b className="block text-base font-semibold text-white">{s.title}</b>
-                {s.text}
-              </p>
-            </li>
-          ))}
-        </ul>
-
-        <Link href="/admin" className="btn btn-accent mt-10 w-full lg:w-auto">
-          Entrar al panel
-        </Link>
+        <div className="mt-8 flex flex-wrap gap-3 lg:mt-12">
+          <Link href="/admin" className="btn btn-white">
+            Entrar al panel <Icon name="chevron" size={16} />
+          </Link>
+          <Link href="/paleta" className="btn btn-glass">
+            Sistema de color
+          </Link>
+        </div>
       </Hero>
 
-      {/* Muestra de la tarjeta del cliente */}
-      <div className="mx-6 mb-10 grid-texture rounded-[36px] bg-coal p-6 ring-1 ring-white/5 lg:m-0 lg:w-[400px] lg:flex-none lg:p-8">
-        <div className="flex items-center gap-3">
-          <Avatar emoji="☕" />
-          <div className="leading-tight">
-            <p className="font-semibold">Café de ejemplo</p>
-            <p className="text-sm text-mist">Hola, María</p>
+      <Content>
+        <div className="card" style={brandStyle("#ffd84d")}>
+          <div className="mb-5 flex items-center gap-3">
+            <BrandMark icon="coffee" />
+            <div className="leading-tight">
+              <p className="font-display font-semibold">Café de ejemplo</p>
+              <p className="text-sm text-stone">Así ve su tarjeta un cliente</p>
+            </div>
           </div>
+          <StampCard title="Tus sellos" filled={7} total={10} icon="coffee" footer="Te faltan 3 para un café gratis" />
         </div>
-        <p className="mt-7 text-sm text-mist">Tus sellos</p>
-        <p className="tabular mb-6 mt-1 text-6xl font-semibold tracking-tight">
-          7<span className="text-3xl text-mist"> / 10</span>
-        </p>
-        <StampCard filled={7} total={10} emoji="☕" footer="Te faltan 3 sellos para un café gratis" />
-      </div>
+
+        <div className="card">
+          <p className="eyebrow mb-3 text-stone">Cómo funciona</p>
+          <ol className="space-y-2">
+            {STEPS.map((s, i) => (
+              <li key={s.title} className="row">
+                <IconBubble name={s.icon} tone="bg-white text-ink shadow-[0_0_0_1px_rgb(10_11_13/0.06)]" />
+                <p className="min-w-0 flex-1 text-sm leading-snug text-stone">
+                  <b className="block font-display text-[15px] font-semibold text-ink">{s.title}</b>
+                  {s.text}
+                </p>
+                <span className="font-mono text-xs text-stone">0{i + 1}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Content>
     </Phone>
   );
 }

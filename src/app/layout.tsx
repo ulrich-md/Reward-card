@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+// Cuatro voces: titulares y cifras, texto de interfaz, énfasis editorial y datos.
+const display = Bricolage_Grotesque({ variable: "--font-display-src", subsets: ["latin"] });
+const sans = Hanken_Grotesk({ variable: "--font-sans-src", subsets: ["latin"] });
+const serif = Instrument_Serif({ variable: "--font-serif-src", subsets: ["latin"], weight: "400", style: ["normal", "italic"] });
+const mono = JetBrains_Mono({ variable: "--font-mono-src", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Reward Card",
@@ -11,14 +14,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0c0e",
+  themeColor: "#0a0b0d",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="es"
+      className={`${display.variable} ${sans.variable} ${serif.variable} ${mono.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

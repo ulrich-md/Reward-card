@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AdminBody, AdminHeader, Empty, Panel, Stat } from "@/components/admin";
-import { Avatar, Icon, Loading, brandStyle, type IconName } from "@/components/ui";
+import { BrandMark, Icon, IconBubble, Loading, brandStyle, type IconName } from "@/components/ui";
 import { getDb, schema } from "@/db";
 import { isAdmin } from "@/lib/auth";
 import { businessBySlug } from "@/lib/loyalty";
@@ -26,7 +26,7 @@ export default function Page({ params }: Props) {
 
 const EVENT_LABEL: Record<string, { icon: IconName; text: string; tone: string }> = {
   enrolled: { icon: "user", text: "Nueva tarjeta", tone: "bg-cobalt-soft text-cobalt" },
-  stamp: { icon: "check", text: "Sello", tone: "bg-fog text-stone" },
+  stamp: { icon: "check", text: "Sello", tone: "bg-white text-ink shadow-[0_0_0_1px_rgb(10_11_13/0.06)]" },
   reward_earned: { icon: "star", text: "Tarjeta completa", tone: "bg-warn-soft text-warn" },
   reward_redeemed: { icon: "gift", text: "Recompensa entregada", tone: "bg-ok-soft text-ok" },
   coupon_redeemed: { icon: "tag", text: "Cupón canjeado", tone: "bg-cobalt-soft text-cobalt" },
@@ -93,30 +93,30 @@ async function Detail({ params }: Props) {
   return (
     <div style={brandStyle(business.color)} className="flex flex-1 flex-col">
       <AdminHeader>
-        <Link href="/admin" className="inline-flex items-center gap-2 text-sm font-medium text-mist hover:text-white">
+        <Link href="/admin" className="inline-flex items-center gap-2 text-sm font-medium text-white/60 transition-colors hover:text-white">
           <Icon name="back" size={16} /> Negocios
         </Link>
         <div className="mt-5 flex items-center gap-4">
-          <Avatar emoji={business.emoji} size={56} />
+          <BrandMark icon={business.icon} size={56} />
           <div className="min-w-0 leading-tight">
-            <h1 className="truncate text-2xl font-semibold tracking-tight lg:text-3xl">{business.name}</h1>
-            <p className="mt-1 text-sm text-mist">
-              {business.stampsRequired} sellos → {business.rewardText}
+            <h1 className="truncate text-3xl font-medium lg:text-5xl">{business.name}</h1>
+            <p className="mt-1.5 text-sm text-white/60">
+              {business.stampsRequired} sellos · <span className="em text-base text-white">{business.rewardText}</span>
             </p>
           </div>
         </div>
-        <div className="mt-6 grid grid-cols-2 gap-3 lg:mt-8 lg:grid-cols-4 lg:gap-4">
-          <Stat label="Clientes con tarjeta" value={stats.members} />
-          <Stat label="Sellos, últimos 7 días" value={week.n} />
+        <div className="mt-7 grid grid-cols-2 gap-2.5 lg:mt-9 lg:grid-cols-4 lg:gap-4">
+          <Stat label="Clientes" value={stats.members} />
+          <Stat label="Sellos · 7 días" value={week.n} />
           <Stat label="Sellos totales" value={stats.stamps} />
-          <Stat label="Premios por entregar" value={stats.pending} />
+          <Stat label="Premios pendientes" value={stats.pending} />
         </div>
       </AdminHeader>
 
       <AdminBody>
-        <div className="grid gap-9 lg:grid-cols-3 lg:items-start lg:gap-6">
+        <div className="grid gap-4 lg:grid-cols-3 lg:items-start lg:gap-6">
         {/* Columna de acciones: primero en móvil, a la derecha en escritorio */}
-        <div className="space-y-9 lg:col-start-3 lg:row-start-1 lg:space-y-6">
+        <div className="space-y-4 lg:col-start-3 lg:row-start-1 lg:space-y-6">
           <Panel
             title="Código para el mostrador"
             description="El cliente lo escanea con su cámara y crea su tarjeta."
@@ -124,7 +124,7 @@ async function Detail({ params }: Props) {
             <div
               role="img"
               aria-label="Código QR de alta"
-              className="mx-auto w-44 rounded-3xl border border-line p-3 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+              className="mx-auto w-44 rounded-3xl bg-white p-3 shadow-[0_0_0_1px_rgb(10_11_13/0.08)] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
               dangerouslySetInnerHTML={{ __html: qr }}
             />
             <Link href={`/admin/${business.slug}/poster`} className="btn btn-ink btn-sm mt-4 w-full">
@@ -138,11 +138,11 @@ async function Detail({ params }: Props) {
 
           <Panel title="Cupones" description="Cada cliente puede usar un cupón una sola vez.">
             {couponList.length > 0 ? (
-              <ul className="mb-5 divide-y divide-line">
+              <ul className="mb-4 space-y-2">
                 {couponList.map(({ coupon: c, expired }) => (
-                  <li key={c.id} className="flex items-center gap-3 py-3">
-                    <div className={`min-w-0 flex-1 ${c.active && !expired ? "" : "opacity-45"}`}>
-                      <p className="truncate font-medium">{c.title}</p>
+                  <li key={c.id} className="row">
+                    <div className={`min-w-0 flex-1 ${c.active && !expired ? "" : "opacity-55"}`}>
+                      <p className="truncate font-semibold">{c.title}</p>
                       <p className="truncate text-sm text-stone">
                         {expired ? "Vencido" : c.expiresAt ? `Vence el ${fmtDay.format(c.expiresAt)}` : "Sin vencimiento"}
                         {c.description ? ` · ${c.description}` : ""}
@@ -183,27 +183,25 @@ async function Detail({ params }: Props) {
           </Panel>
         </div>
 
-        <div className="space-y-9 lg:col-span-2 lg:row-start-1 lg:space-y-6">
+        <div className="space-y-4 lg:col-span-2 lg:row-start-1 lg:space-y-6">
           <Panel title="Actividad reciente">
             {recent.length === 0 ? (
               <Empty>Aquí aparecerán los sellos y canjes del negocio.</Empty>
             ) : (
-              <ul className="divide-y divide-line">
+              <ul className="space-y-2">
                 {recent.map((e) => {
                   const label = EVENT_LABEL[e.type] ?? { icon: "check" as const, text: e.type, tone: "bg-fog" };
                   return (
-                    <li key={e.id} className="flex items-center gap-3 py-3">
-                      <span className={`flex size-10 shrink-0 items-center justify-center rounded-full ${label.tone}`}>
-                        <Icon name={label.icon} size={18} />
-                      </span>
+                    <li key={e.id} className="row">
+                      <IconBubble name={label.icon} tone={label.tone} />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-medium">{e.name ?? "Cliente"}</p>
+                        <p className="truncate font-semibold">{e.name ?? "Cliente"}</p>
                         <p className="truncate text-sm text-stone">
                           {label.text}
                           {e.detail ? ` · ${e.detail}` : ""}
                         </p>
                       </div>
-                      <time className="tabular shrink-0 text-sm text-stone">{fmtTime.format(e.at)}</time>
+                      <time className="tabular shrink-0 font-mono text-xs text-stone">{fmtTime.format(e.at)}</time>
                     </li>
                   );
                 })}
@@ -220,18 +218,18 @@ async function Detail({ params }: Props) {
             {memberList.length === 0 ? (
               <Empty>Todavía nadie ha creado su tarjeta. Imprime el cartel y ponlo en caja.</Empty>
             ) : (
-              <ul className="divide-y divide-line">
+              <ul className="space-y-2">
                 {memberList.map((m) => (
-                  <li key={m.id} className="flex items-center gap-3 py-3">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-fog text-sm font-semibold uppercase text-stone">
+                  <li key={m.id} className="row">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white font-display text-sm font-semibold uppercase text-ink shadow-[0_0_0_1px_rgb(10_11_13/0.06)]">
                       {m.name.slice(0, 1)}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium">{m.name}</p>
-                      <p className="tabular text-sm text-stone">{m.phone}</p>
+                      <p className="truncate font-semibold">{m.name}</p>
+                      <p className="tabular font-mono text-xs text-stone">{m.phone}</p>
                     </div>
                     {m.rewardsAvailable > 0 ? (
-                      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-ok-soft px-2.5 py-1 text-xs font-semibold text-ok">
+                      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-lime px-2.5 py-1 text-xs font-semibold text-ink">
                         <Icon name="gift" size={14} /> {m.rewardsAvailable}
                       </span>
                     ) : null}
@@ -239,7 +237,7 @@ async function Detail({ params }: Props) {
                       <p className="tabular text-right text-sm font-semibold">
                         {m.stamps} / {business.stampsRequired}
                       </p>
-                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-fog">
+                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-line">
                         <div
                           className="h-full rounded-full bg-ink"
                           style={{ width: `${(m.stamps / business.stampsRequired) * 100}%` }}
@@ -260,7 +258,7 @@ async function Detail({ params }: Props) {
 
 function LinkRow({ label, url }: { label: string; url: string }) {
   return (
-    <div className="rounded-2xl bg-fog p-3">
+    <div className="rounded-2xl bg-fog p-3 shadow-[inset_0_0_0_1px_rgb(10_11_13/0.05)]">
       <p className="text-xs font-medium text-stone">{label}</p>
       <div className="mt-1 flex items-center gap-2">
         <a href={url} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate text-sm font-medium underline">

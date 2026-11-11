@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Avatar, Hero, Loading, Phone, Sheet, brandStyle } from "@/components/ui";
+import { BrandMark, Hero, Loading, Phone, Sheet, brandStyle } from "@/components/ui";
 import { staffBusinessId } from "@/lib/auth";
 import { businessBySlug } from "@/lib/loyalty";
 import { PinForm } from "./pin-form";
@@ -28,12 +28,13 @@ async function Staff({ params }: Props) {
     return (
       <Phone style={brandStyle(business.color)}>
         <Hero>
-          <Avatar emoji={business.emoji} size={56} />
-          <h1 className="mt-5 text-3xl font-semibold tracking-tight lg:text-5xl">{business.name}</h1>
-          <p className="mt-1 text-mist lg:mt-3 lg:text-lg">Escáner del personal</p>
+          <BrandMark icon={business.icon} size={56} />
+          <h1 className="mt-6 text-4xl font-medium leading-[1.05] lg:text-6xl">{business.name}</h1>
+          <p className="eyebrow mt-3 text-white/55">Escáner del personal</p>
         </Hero>
         <Sheet>
-          <h2 className="mb-4 text-xl font-semibold">Entra con el PIN del local</h2>
+          <p className="eyebrow text-stone">Acceso</p>
+          <h2 className="mb-5 mt-1 text-2xl font-semibold">Entra con el PIN del local</h2>
           <PinForm slug={business.slug} />
         </Sheet>
       </Phone>
@@ -46,7 +47,7 @@ async function Staff({ params }: Props) {
         slug={business.slug}
         business={{
           name: business.name,
-          emoji: business.emoji,
+          icon: business.icon,
           stampsRequired: business.stampsRequired,
           rewardText: business.rewardText,
         }}

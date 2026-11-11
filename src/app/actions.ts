@@ -27,6 +27,7 @@ import {
   redeemCoupon,
   redeemReward,
 } from "@/lib/loyalty";
+import { STAMPS } from "@/lib/stamps";
 import { COUNTRIES, isHexColor, slugify } from "@/lib/util";
 import { walletProvider } from "@/lib/wallet";
 
@@ -65,7 +66,7 @@ export async function createBusinessAction(_: FormState, fd: FormData): Promise<
   const name = str(fd, "name");
   const country = str(fd, "country");
   const color = str(fd, "color");
-  const emoji = str(fd, "emoji") || "☕";
+  const icon = str(fd, "icon");
   const rewardText = str(fd, "rewardText");
   const stampsRequired = Number(str(fd, "stampsRequired"));
   const pin = str(fd, "pin");
@@ -73,7 +74,7 @@ export async function createBusinessAction(_: FormState, fd: FormData): Promise<
   if (name.length < 2 || name.length > 60) return { error: "Escribe el nombre del negocio." };
   if (!(country in COUNTRIES)) return { error: "Elige el país." };
   if (!isHexColor(color)) return { error: "El color no es válido." };
-  if ([...emoji].length > 4) return { error: "Usa un solo emoji como sello." };
+  if (!(icon in STAMPS)) return { error: "Elige el sello de la tarjeta." };
   if (!Number.isInteger(stampsRequired) || stampsRequired < 2 || stampsRequired > 12)
     return { error: "Los sellos por tarjeta deben estar entre 2 y 12." };
   if (rewardText.length < 2 || rewardText.length > 80) return { error: "Describe la recompensa." };
@@ -87,7 +88,7 @@ export async function createBusinessAction(_: FormState, fd: FormData): Promise<
 
   await db
     .insert(businesses)
-    .values({ slug, name, country, color, emoji, stampsRequired, rewardText, pinHash: hashPin(pin) });
+    .values({ slug, name, country, color, icon, stampsRequired, rewardText, pinHash: hashPin(pin) });
   redirect(`/admin/${slug}`);
 }
 

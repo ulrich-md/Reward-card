@@ -3,17 +3,18 @@
 import { useActionState, useState } from "react";
 import { createBusinessAction, type FormState } from "@/app/actions";
 import { Submit } from "@/components/submit";
-import { Avatar, ErrorText, StampCard, brandStyle } from "@/components/ui";
+import { BrandMark, ErrorText, StampCard, brandStyle } from "@/components/ui";
+import { STAMPS, StampIcon } from "@/lib/stamps";
 import { CARD_COLORS } from "@/lib/palette";
 
 const COLORS = CARD_COLORS.map((c) => c.hex);
-const EMOJIS = ["☕", "🍔", "🍕", "🌮", "🍦", "🥐", "💈", "💅", "🧺", "🐾"];
+const ICONS = Object.keys(STAMPS);
 
 export function NewBusinessForm() {
   const [state, action] = useActionState<FormState, FormData>(createBusinessAction, undefined);
   const [name, setName] = useState("");
   const [color, setColor] = useState(COLORS[0]);
-  const [emoji, setEmoji] = useState(EMOJIS[0]);
+  const [icon, setIcon] = useState(ICONS[0]);
   const [stamps, setStamps] = useState(10);
   const [reward, setReward] = useState("");
   const [country, setCountry] = useState("CR");
@@ -23,31 +24,29 @@ export function NewBusinessForm() {
   return (
     <form action={action} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
       {/* Vista previa: arriba en móvil, fija a la derecha en escritorio */}
-      <div
-        style={brandStyle(color)}
-        className="grid-texture rounded-[32px] bg-ink p-5 text-white lg:sticky lg:top-10 lg:order-last lg:p-6"
-      >
-        <p className="mb-4 text-xs font-medium uppercase tracking-wide text-mist">Así la ve el cliente</p>
+      <div style={brandStyle(color)} className="hero rounded-[32px] p-5 lg:sticky lg:top-6 lg:order-last lg:p-6">
+        <p className="eyebrow mb-4 text-white/55">Así la ve el cliente</p>
         <div className="mb-5 flex items-center gap-3">
-          <Avatar emoji={emoji} />
+          <BrandMark icon={icon} />
           <div className="min-w-0 leading-tight">
-            <p className="truncate font-semibold">{name || "Nombre del negocio"}</p>
-            <p className="text-sm text-mist">Hola, María</p>
+            <p className="truncate font-display font-semibold">{name || "Nombre del negocio"}</p>
+            <p className="text-sm text-white/60">Hola, María</p>
           </div>
         </div>
-        <p className="tabular mb-5 text-5xl font-semibold tracking-tight">
+        <p className="figure mb-5 text-6xl">
           {preview}
-          <span className="text-2xl text-mist"> / {stamps}</span>
+          <span className="text-3xl text-white/40"> / {stamps}</span>
         </p>
         <StampCard
+          title="Tarjeta de sellos"
           filled={preview}
           total={stamps}
-          emoji={emoji}
-          footer={`Te faltan ${stamps - preview} sellos para ${reward || "tu recompensa"}`}
+          icon={icon}
+          footer={`Al completar: ${reward || "tu recompensa"}`}
         />
       </div>
 
-      <div className="panel space-y-5">
+      <div className="card space-y-5">
         <div>
           <label className="label" htmlFor="name">
             Nombre del negocio
@@ -78,7 +77,7 @@ export function NewBusinessForm() {
                   aria-label={`Color ${name}`}
                   aria-pressed={color === c}
                   onClick={() => setColor(c)}
-                  className={`size-10 rounded-full border border-black/10 ${color === c ? "ring-2 ring-black ring-offset-2" : ""}`}
+                  className={`size-11 rounded-full border border-black/10 transition-shadow duration-200 ${color === c ? "ring-2 ring-ink ring-offset-2" : ""}`}
                   style={{ background: c }}
                 />
               ))}
@@ -87,17 +86,21 @@ export function NewBusinessForm() {
 
           <fieldset>
             <legend className="label">Sello</legend>
-            <input type="hidden" name="emoji" value={emoji} />
+            <input type="hidden" name="icon" value={icon} />
             <div className="flex flex-wrap gap-2">
-              {EMOJIS.map((e) => (
+              {ICONS.map((key) => (
                 <button
-                  key={e}
+                  key={key}
                   type="button"
-                  aria-pressed={emoji === e}
-                  onClick={() => setEmoji(e)}
-                  className={`flex size-10 items-center justify-center rounded-full bg-fog text-xl ${emoji === e ? "ring-2 ring-black ring-offset-2" : ""}`}
+                  title={STAMPS[key].label}
+                  aria-label={`Sello ${STAMPS[key].label}`}
+                  aria-pressed={icon === key}
+                  onClick={() => setIcon(key)}
+                  className={`flex size-11 items-center justify-center rounded-full transition-colors duration-200 ${
+                    icon === key ? "bg-ink text-white" : "bg-fog text-ink hover:bg-line"
+                  }`}
                 >
-                  {e}
+                  <StampIcon name={key} size={20} />
                 </button>
               ))}
             </div>
