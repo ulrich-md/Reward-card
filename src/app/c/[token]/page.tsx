@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AutoRefresh } from "@/components/auto-refresh";
-import { Avatar, Loading, Phone, Sheet, StampGrid, brandStyle } from "@/components/ui";
+import { Avatar, Hero, Icon, Loading, Phone, Sheet, StampCard, brandStyle } from "@/components/ui";
 import { businessById, couponsFor, memberByToken } from "@/lib/loyalty";
 import { qrSvg } from "@/lib/qr";
 
@@ -30,7 +30,7 @@ async function Card({ params }: Props) {
   return (
     <Phone style={brandStyle(business.color)}>
       <AutoRefresh />
-      <header className="px-6 pb-7 pt-8">
+      <Hero>
         <div className="flex items-center gap-3">
           <Avatar emoji={business.emoji} />
           <div className="leading-tight">
@@ -39,26 +39,29 @@ async function Card({ params }: Props) {
           </div>
         </div>
 
-        <p className="mt-8 text-sm text-mist">Tus sellos</p>
-        <p className="tabular mt-1 text-6xl font-semibold tracking-tight">
+        <p className="mt-8 text-sm text-mist lg:mt-12">Tus sellos</p>
+        <p className="tabular mt-1 text-6xl font-semibold tracking-tight lg:text-8xl">
           {member.stamps}
-          <span className="text-3xl text-mist"> / {business.stampsRequired}</span>
+          <span className="text-3xl text-mist lg:text-4xl"> / {business.stampsRequired}</span>
         </p>
 
         {member.rewardsAvailable > 0 ? (
-          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-on-accent">
-            🎁 {member.rewardsAvailable === 1 ? "Tienes" : `Tienes ${member.rewardsAvailable} ×`} {business.rewardText}{" "}
-            por canjear
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink">
+            <Icon name="gift" size={16} />
+            {member.rewardsAvailable === 1 ? "Tienes" : `Tienes ${member.rewardsAvailable} ×`} {business.rewardText} por
+            canjear
           </p>
         ) : null}
 
-        <div className="mt-6 rounded-[28px] bg-accent p-5 text-on-accent">
-          <StampGrid filled={member.stamps} total={business.stampsRequired} emoji={business.emoji} />
-          <p className="mt-4 text-sm font-medium opacity-75">
-            {left === 1 ? "Te falta 1 sello" : `Te faltan ${left} sellos`} para {business.rewardText}
-          </p>
+        <div className="mt-6 lg:mt-8 lg:max-w-md">
+          <StampCard
+            filled={member.stamps}
+            total={business.stampsRequired}
+            emoji={business.emoji}
+            footer={`${left === 1 ? "Te falta 1 sello" : `Te faltan ${left} sellos`} para ${business.rewardText}`}
+          />
         </div>
-      </header>
+      </Hero>
 
       <Sheet>
         <div className="flex flex-col items-center">
@@ -88,7 +91,9 @@ async function Card({ params }: Props) {
           <ul className="divide-y divide-line">
             {coupons.map((c) => (
               <li key={c.id} className={`flex items-center gap-3 py-3 ${c.redeemed ? "opacity-45" : ""}`}>
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-fog text-xl">🏷️</span>
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-fog">
+                  <Icon name="tag" size={18} />
+                </span>
                 <div className="min-w-0 flex-1">
                   <p className="font-medium">{c.title}</p>
                   <p className="truncate text-sm text-neutral-500">
@@ -96,7 +101,13 @@ async function Card({ params }: Props) {
                       (c.expiresAt ? `Válido hasta el ${c.expiresAt.toLocaleDateString("es", { day: "numeric", month: "long", timeZone: "America/Costa_Rica" })}` : "Sin fecha de vencimiento")}
                   </p>
                 </div>
-                <span className="shrink-0 text-sm font-medium text-neutral-500">{c.redeemed ? "Usado" : "Disponible"}</span>
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${
+                    c.redeemed ? "bg-fog text-neutral-500" : "bg-emerald-50 text-emerald-700"
+                  }`}
+                >
+                  {c.redeemed ? "Usado" : "Disponible"}
+                </span>
               </li>
             ))}
           </ul>

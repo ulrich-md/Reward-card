@@ -8,10 +8,13 @@ en cada visita escaneando el QR de la tarjeta.
 
 | Ruta | Para quién | Qué hace |
 |---|---|---|
-| `/admin` | Agencia | Alta de negocios, cupones, clientes y actividad. Entra con `ADMIN_PASSWORD`. |
+| `/admin` | Agencia | Alta de negocios, cupones, clientes, actividad y cartel imprimible con el QR. Entra con `ADMIN_PASSWORD`. |
 | `/j/[negocio]` | Cliente | Alta: nombre + celular. Con el mismo celular recupera su tarjeta. |
 | `/c/[token]` | Cliente | Su tarjeta: sellos, QR, recompensas y cupones. Se actualiza sola. |
 | `/s/[negocio]` | Personal | Escáner con cámara (o búsqueda por código/celular). Entra con el PIN del local. |
+
+Todas las pantallas se adaptan a móvil y escritorio: en móvil, cabecera oscura con
+hoja blanca inferior; en escritorio, dos columnas y barra lateral en el panel.
 
 ## Desarrollo
 

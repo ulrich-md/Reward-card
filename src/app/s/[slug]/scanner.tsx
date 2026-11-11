@@ -10,7 +10,7 @@ import {
   type MemberView,
   type StaffResult,
 } from "@/app/actions";
-import { Avatar, ErrorText, Sheet, StampGrid } from "@/components/ui";
+import { Avatar, ErrorText, Hero, Icon, Sheet, StampCard } from "@/components/ui";
 import { parseScannedCode } from "@/lib/util";
 
 type BusinessInfo = { name: string; emoji: string; stampsRequired: number; rewardText: string };
@@ -30,6 +30,7 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
     }
     setError(null);
     setMessage(result.message ?? null);
+    if (result.message) navigator.vibrate?.(60);
     setJustStamped(stamped && !result.rewardEarned ? result.member.stamps - 1 : undefined);
     setMember(result.member);
   }, []);
@@ -44,7 +45,8 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
   if (!member) {
     return (
       <>
-        <header className="flex items-center justify-between px-6 pb-4 pt-6">
+        <div className="lg:min-w-0 lg:flex-1">
+        <header className="flex items-center justify-between px-6 pb-4 pt-6 lg:px-0 lg:pt-0">
           <div className="flex items-center gap-3">
             <Avatar emoji={business.emoji} size={40} />
             <div className="leading-tight">
@@ -57,11 +59,13 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
           </form>
         </header>
 
-        <div className="px-6 pb-6">
+        <div className="px-6 pb-6 lg:max-w-md lg:px-0 lg:pb-0">
           <Camera onCode={lookup} paused={pending} />
-          <p className="mt-3 text-center text-sm text-mist">
+          <p className="mt-3 flex items-center justify-center gap-2 text-sm text-mist">
+            <Icon name="scan" size={16} />
             {pending ? "Buscando tarjeta…" : "Apunta al código QR de la tarjeta del cliente"}
           </p>
+        </div>
         </div>
 
         <Sheet>
@@ -93,29 +97,27 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
 
   return (
     <>
-      <header className="px-6 pb-7 pt-8">
-        <p className="text-sm text-mist">Cliente · termina en {member.phoneEnd}</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight">{member.name}</h1>
-        <div className="mt-6 rounded-[28px] bg-accent p-5 text-on-accent">
-          <div className="mb-4 flex items-baseline justify-between text-sm font-semibold">
-            <span>Sellos</span>
-            <span className="tabular">
-              {member.stamps} / {business.stampsRequired}
-            </span>
-          </div>
-          <StampGrid
+      <Hero>
+        <p className="text-sm text-mist">Cliente · celular termina en {member.phoneEnd}</p>
+        <h1 className="mt-1 text-3xl font-semibold tracking-tight lg:text-5xl">{member.name}</h1>
+        <div className="mt-6 lg:mt-8 lg:max-w-md">
+          <StampCard
+            title="Sellos"
             filled={member.stamps}
             total={business.stampsRequired}
             emoji={business.emoji}
             highlight={justStamped}
+            footer={`Al completar: ${business.rewardText}`}
           />
         </div>
-      </header>
+      </Hero>
 
       <Sheet>
         <div aria-live="polite" className="mb-4 space-y-3 empty:hidden">
           {message ? (
-            <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">{message}</p>
+            <p className="flex items-center gap-2 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+              <Icon name="check" size={18} /> {message}
+            </p>
           ) : null}
           <ErrorText>{error}</ErrorText>
         </div>
@@ -130,7 +132,9 @@ export function Scanner({ slug, business }: { slug: string; business: BusinessIn
 
         {member.rewardsAvailable > 0 ? (
           <div className="mt-4 flex items-center gap-3 rounded-3xl bg-fog p-4">
-            <span className="text-2xl">🎁</span>
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+              <Icon name="gift" />
+            </span>
             <div className="min-w-0 flex-1">
               <p className="font-semibold">{business.rewardText}</p>
               <p className="text-sm text-neutral-500">

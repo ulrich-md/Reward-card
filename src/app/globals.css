@@ -27,6 +27,8 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* En la capa de componentes para que las utilidades de Tailwind puedan ajustarlos */
+@layer components {
 /* Hoja blanca inferior, como en una app de wallet */
 .sheet {
   background: #ffffff;
@@ -112,6 +114,60 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Foco visible para teclado */
+:where(a, button, input, select, summary):focus-visible {
+  outline: 2px solid var(--accent, #c8f169);
+  outline-offset: 2px;
+}
+.sheet :where(a, button, select):focus-visible,
+.admin-body :where(a, button, select):focus-visible {
+  outline-color: #0b0c0e;
+}
+
+/* Escritorio: la hoja inferior pasa a ser una tarjeta flotante */
+@media (min-width: 1024px) {
+  .sheet {
+    border-radius: 32px;
+    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.6);
+  }
+}
+
+/* Panel de la agencia: hoja en móvil, tarjetas sueltas en escritorio */
+.admin-body {
+  flex: 1;
+  background: #ffffff;
+  color: #0b0c0e;
+  color-scheme: light;
+  border-radius: 32px 32px 0 0;
+  padding: 12px 20px 120px;
+}
+@media (min-width: 1024px) {
+  .admin-body {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+  }
+  .panel {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 24px 28px;
+  }
+}
+
+.skeleton {
+  border-radius: 20px;
+  background: #15171a;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% { opacity: 0.5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
+}
+
 @keyframes pop {
   0% { transform: scale(0.4); opacity: 0; }
   70% { transform: scale(1.12); }
@@ -123,4 +179,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .pop { animation: none; }
   .btn { transition: none; }
+}
+
+@media print {
+  html, body { background: #ffffff !important; }
+  .no-print { display: none !important; }
 }

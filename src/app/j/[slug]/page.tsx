@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Avatar, Loading, Phone, Sheet, StampGrid, brandStyle } from "@/components/ui";
+import { Avatar, Hero, Loading, Phone, Sheet, StampCard, brandStyle } from "@/components/ui";
 import { businessBySlug } from "@/lib/loyalty";
 import { COUNTRIES, type Country } from "@/lib/util";
 import { EnrollForm } from "./form";
@@ -23,18 +23,27 @@ async function Join({ params }: Props) {
 
   return (
     <Phone style={brandStyle(business.color)}>
-      <header className="px-6 pb-7 pt-8">
+      <Hero>
         <div className="flex items-center gap-3">
           <Avatar emoji={business.emoji} />
           <span className="text-lg font-semibold">{business.name}</span>
         </div>
-        <h1 className="mt-7 text-3xl font-semibold leading-tight tracking-tight">
+        <h1 className="mt-7 text-3xl font-semibold leading-tight tracking-tight text-balance lg:text-5xl">
           Junta {business.stampsRequired} sellos y llévate {business.rewardText}.
         </h1>
-        <div className="mt-6 rounded-[28px] bg-accent p-5 text-on-accent">
-          <StampGrid filled={1} total={business.stampsRequired} emoji={business.emoji} />
+        <p className="mt-3 hidden text-lg text-mist lg:block">
+          Tu tarjeta vive en tu teléfono: sin app y sin cartón que perder.
+        </p>
+        <div className="mt-6 lg:mt-10 lg:max-w-md">
+          <StampCard
+            title="Ejemplo de tarjeta"
+            filled={1}
+            total={business.stampsRequired}
+            emoji={business.emoji}
+            footer={`Al completar: ${business.rewardText}`}
+          />
         </div>
-      </header>
+      </Hero>
 
       <Sheet>
         <h2 className="text-xl font-semibold">Crea tu tarjeta</h2>

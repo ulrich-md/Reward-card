@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Avatar, Loading, Phone, Sheet, brandStyle } from "@/components/ui";
+import { Avatar, Hero, Loading, Phone, Sheet, brandStyle } from "@/components/ui";
 import { staffBusinessId } from "@/lib/auth";
 import { businessBySlug } from "@/lib/loyalty";
 import { PinForm } from "./pin-form";
@@ -27,11 +27,11 @@ async function Staff({ params }: Props) {
   if (!signedIn) {
     return (
       <Phone style={brandStyle(business.color)}>
-        <header className="px-6 pb-8 pt-10">
+        <Hero>
           <Avatar emoji={business.emoji} size={56} />
-          <h1 className="mt-5 text-3xl font-semibold tracking-tight">{business.name}</h1>
-          <p className="mt-1 text-mist">Escáner del personal</p>
-        </header>
+          <h1 className="mt-5 text-3xl font-semibold tracking-tight lg:text-5xl">{business.name}</h1>
+          <p className="mt-1 text-mist lg:mt-3 lg:text-lg">Escáner del personal</p>
+        </Hero>
         <Sheet>
           <h2 className="mb-4 text-xl font-semibold">Entra con el PIN del local</h2>
           <PinForm slug={business.slug} />
